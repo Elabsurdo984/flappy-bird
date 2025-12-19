@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://co0wtmv0jenao"]
+
+[ext_resource type="Texture2D" uid="uid://bttxfij5l1da2" path="res://assets/pajaro.png" id="1_02n2h"]
+[ext_resource type="Script" uid="uid://cm4tpovx1iegn" path="res://scenes/jugador/controlador_jugador.gd" id="1_6bcbl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ueyq7"]
+radius = 33.955853
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(2, 0)
+motion_mode = 1
+script = ExtResource("1_6bcbl")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Pajaro" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-502, 9)
+texture = ExtResource("1_02n2h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-499, 6)
+shape = SubResource("CircleShape2D_ueyq7")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjfwyaixis0ah"]
+
+[ext_resource type="Texture2D" uid="uid://x8qvfpeg7gp3" path="res://assets/tubos.png" id="1_mtpno"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtpno"]
+size = Vector2(32, 202)
+
+[node name="Tubos" type="Area2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="TuboInferior" type="Sprite2D" parent="."]
+position = Vector2(1, 220)
+scale = Vector2(0.37246963, 0.4108911)
+texture = ExtResource("1_mtpno")
+
+[node name="TuboSuperior" type="Sprite2D" parent="."]
+position = Vector2(1, -220.00006)
+scale = Vector2(0.37246963, 0.4108911)
+texture = ExtResource("1_mtpno")
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 219)
+shape = SubResource("RectangleShape2D_mtpno")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, -220)
+shape = SubResource("RectangleShape2D_mtpno")
