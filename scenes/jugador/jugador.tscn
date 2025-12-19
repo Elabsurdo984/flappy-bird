@@ -4,20 +4,20 @@
 [ext_resource type="Script" uid="uid://cm4tpovx1iegn" path="res://scenes/jugador/controlador_jugador.gd" id="1_6bcbl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ueyq7"]
-radius = 33.955853
+radius = 30.265491
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-position = Vector2(2, 0)
+position = Vector2(576, 341)
+collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_6bcbl")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="Pajaro" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-502, 9)
+position = Vector2(-518, -2.5)
+scale = Vector2(0.8181818, 0.8445946)
 texture = ExtResource("1_02n2h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-499, 6)
+position = Vector2(-512, -4)
 shape = SubResource("CircleShape2D_ueyq7")

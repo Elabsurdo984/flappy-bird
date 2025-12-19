@@ -1,29 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjfwyaixis0ah"]
+[gd_scene load_steps=6 format=3 uid="uid://cjfwyaixis0ah"]
 
+[ext_resource type="Script" uid="uid://b2n61j4m6rsu3" path="res://scenes/tubos/tubos.gd" id="1_b8hds"]
 [ext_resource type="Texture2D" uid="uid://x8qvfpeg7gp3" path="res://assets/tubos.png" id="1_mtpno"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtpno"]
-size = Vector2(32, 202)
+size = Vector2(32, 370)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8hds"]
+size = Vector2(1299, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6bcbl"]
+size = Vector2(44, 232)
 
 [node name="Tubos" type="Area2D"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(614, 317)
+collision_layer = 2
+script = ExtResource("1_b8hds")
 
 [node name="TuboInferior" type="Sprite2D" parent="."]
-position = Vector2(1, 220)
-scale = Vector2(0.37246963, 0.4108911)
+position = Vector2(1, 308.625)
+scale = Vector2(0.37246963, 0.7618812)
 texture = ExtResource("1_mtpno")
 
 [node name="TuboSuperior" type="Sprite2D" parent="."]
-position = Vector2(1, -220.00006)
-scale = Vector2(0.37246963, 0.4108911)
+position = Vector2(1, -305.62503)
+scale = Vector2(0.37246963, 0.74999994)
 texture = ExtResource("1_mtpno")
 flip_v = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 219)
+position = Vector2(1, 311)
 shape = SubResource("RectangleShape2D_mtpno")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(0, -220)
+position = Vector2(0, -310)
 shape = SubResource("RectangleShape2D_mtpno")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(27.5, 331)
+shape = SubResource("RectangleShape2D_b8hds")
+
+[node name="ScoreArea" type="CollisionShape2D" parent="."]
+position = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_6bcbl")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

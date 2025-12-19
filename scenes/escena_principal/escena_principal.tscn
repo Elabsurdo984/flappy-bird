@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dj8elxyg7mjgw"]
+
+[ext_resource type="PackedScene" uid="uid://co0wtmv0jenao" path="res://scenes/jugador/jugador.tscn" id="1_ione7"]
+[ext_resource type="PackedScene" uid="uid://cjfwyaixis0ah" path="res://scenes/tubos/tubos.tscn" id="2_ap36v"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_ione7")]
+
+[node name="Tubos" parent="." instance=ExtResource("2_ap36v")]
