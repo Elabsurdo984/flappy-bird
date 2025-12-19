@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbvi7stvm27nc"]
+
+[ext_resource type="Texture2D" uid="uid://cx6d7xwy2mj2l" path="res://assets/fondo.png" id="1_5w5qb"]
+
+[node name="Sprite2D" type="Sprite2D"]
+texture_filter = 1
+position = Vector2(576.49994, 323.5)
+scale = Vector2(0.729375, 0.6551384)
+texture = ExtResource("1_5w5qb")
