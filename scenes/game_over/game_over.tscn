@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://l1r7svlw81va"]
+[gd_scene load_steps=5 format=3 uid="uid://l1r7svlw81va"]
 
 [ext_resource type="FontFile" uid="uid://0nd5mqqmlmh8" path="res://assets/BotsmaticDemo-MXOr.ttf" id="1_3j056"]
+[ext_resource type="Script" uid="uid://c8abp5ty0fhbd" path="res://scenes/game_over/game_over.gd" id="1_sseyc"]
+[ext_resource type="PackedScene" uid="uid://dj8elxyg7mjgw" path="res://scenes/escena_principal/escena_principal.tscn" id="2_anb0t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sseyc"]
 font = ExtResource("1_3j056")
@@ -13,6 +15,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_sseyc")
+escena_principal = ExtResource("2_anb0t")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -39,9 +43,9 @@ alignment = 1
 layout_mode = 2
 text = "Reiniciar"
 
-[node name="BotonSalir" type="Button" parent="VBoxContainer"]
+[node name="BotonMenu" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Salir"
+text = "Ir al menu"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
