@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dj8elxyg7mjgw"]
+[gd_scene load_steps=4 format=3 uid="uid://dj8elxyg7mjgw"]
 
 [ext_resource type="PackedScene" uid="uid://co0wtmv0jenao" path="res://scenes/jugador/jugador.tscn" id="1_ione7"]
 [ext_resource type="PackedScene" uid="uid://cjfwyaixis0ah" path="res://scenes/tubos/tubos.tscn" id="2_ap36v"]
+[ext_resource type="PackedScene" uid="uid://cwwutdyfmhfb7" path="res://scenes/tubo_spawner/tubo_spawner.tscn" id="3_ap36v"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_ione7")]
 
 [node name="Tubos" parent="." instance=ExtResource("2_ap36v")]
+
+[node name="Node2D" parent="." instance=ExtResource("3_ap36v")]

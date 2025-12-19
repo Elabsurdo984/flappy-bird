@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwwutdyfmhfb7"]
+
+[ext_resource type="Script" uid="uid://csnwn06vtcif2" path="res://scenes/tubo_spawner/tubo_spawner.gd" id="1_duxyu"]
+[ext_resource type="PackedScene" uid="uid://cjfwyaixis0ah" path="res://scenes/tubos/tubos.tscn" id="2_srl3d"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_duxyu")
+PipeScene = ExtResource("2_srl3d")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
