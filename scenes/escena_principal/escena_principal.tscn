@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://co0wtmv0jenao" path="res://scenes/jugador/jugador.tscn" id="1_ione7"]
 [ext_resource type="PackedScene" uid="uid://cbvi7stvm27nc" path="res://scenes/fondo/fondo.tscn" id="1_xgjpm"]
-[ext_resource type="PackedScene" uid="uid://cjfwyaixis0ah" path="res://scenes/tubos/tubos.tscn" id="2_ap36v"]
 [ext_resource type="PackedScene" uid="uid://cwwutdyfmhfb7" path="res://scenes/tubo_spawner/tubo_spawner.tscn" id="3_ap36v"]
+[ext_resource type="PackedScene" uid="uid://7xmrtq3blshw" path="res://scenes/puntaje/escena_puntaje.tscn" id="5_yhppp"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,6 +11,8 @@
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_ione7")]
 
-[node name="Tubos" parent="." instance=ExtResource("2_ap36v")]
-
 [node name="Node2D" parent="." instance=ExtResource("3_ap36v")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource("5_yhppp")]

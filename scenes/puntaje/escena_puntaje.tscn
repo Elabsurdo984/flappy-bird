@@ -1,4 +1,11 @@
-[gd_scene format=3 uid="uid://7xmrtq3blshw"]
+[gd_scene load_steps=4 format=3 uid="uid://7xmrtq3blshw"]
+
+[ext_resource type="FontFile" uid="uid://gl5yj4pah2oh" path="res://assets/FlappyBirdRegular-9Pq0.ttf" id="1_qqyjg"]
+[ext_resource type="Script" uid="uid://caeubtwfiprxt" path="res://scenes/puntaje/controlador_puntaje.gd" id="2_ykuc1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ykuc1"]
+font = ExtResource("1_qqyjg")
+font_size = 40
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -7,3 +14,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 152.0
+offset_bottom = 33.0
+text = "Puntaje: 0"
+label_settings = SubResource("LabelSettings_ykuc1")
+script = ExtResource("2_ykuc1")
