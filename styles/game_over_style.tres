@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://ckge21bq7fha8"]
+
+[ext_resource type="FontFile" uid="uid://0nd5mqqmlmh8" path="res://assets/BotsmaticDemo-MXOr.ttf" id="1_yj2no"]
+
+[resource]
+line_spacing = 5.0
+font = ExtResource("1_yj2no")
+font_size = 60
+outline_size = 9
+outline_color = Color(1, 0.19215687, 0.015686275, 1)
