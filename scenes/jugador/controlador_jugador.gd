@@ -3,6 +3,8 @@ extends CharacterBody2D
 var gravity: float = 900.0
 var jump_force: float = -350.0  # Negativo porque en Godot el eje Y crece hacia abajo
 
+@onready var jump_sound: AudioStreamPlayer = $JumpSound
+
 func _physics_process(delta: float) -> void:
 	# Aplicar gravedad (que lo hace caer)
 	velocity.y += gravity * delta
@@ -10,6 +12,8 @@ func _physics_process(delta: float) -> void:
 	# Saltar al presionar la flecha arriba
 	if Input.is_action_just_pressed("ui_up"):
 		velocity.y = jump_force
+		
+		jump_sound.play()
 
 	# Mover el pájaro con la velocidad calculada
 	move_and_slide()

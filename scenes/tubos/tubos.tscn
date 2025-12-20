@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjfwyaixis0ah"]
+[gd_scene load_steps=9 format=3 uid="uid://cjfwyaixis0ah"]
 
 [ext_resource type="Script" uid="uid://b2n61j4m6rsu3" path="res://scenes/tubos/tubos.gd" id="1_b8hds"]
 [ext_resource type="Texture2D" uid="uid://x8qvfpeg7gp3" path="res://assets/tubos.png" id="1_mtpno"]
 [ext_resource type="PackedScene" uid="uid://l1r7svlw81va" path="res://scenes/game_over/game_over.tscn" id="2_upd2v"]
+[ext_resource type="AudioStream" uid="uid://8m5biht63mn1" path="res://assets/sounds/hit.mp3" id="4_g1wso"]
+[ext_resource type="AudioStream" uid="uid://da0wb6bp0m7ye" path="res://assets/sounds/point.mp3" id="5_22c54"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtpno"]
 size = Vector2(32.75, 440.70313)
@@ -51,6 +53,12 @@ scale = Vector2(1, 1.16)
 [node name="CollisionShape" type="CollisionShape2D" parent="ScoreArea"]
 position = Vector2(1, 9.793091)
 shape = SubResource("RectangleShape2D_6bcbl")
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_g1wso")
+
+[node name="ScoreSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_22c54")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="ScoreArea" to="." method="_on_score_area_body_entered"]

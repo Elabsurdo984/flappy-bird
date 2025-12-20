@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://shim4hh05l0q"]
+[gd_scene load_steps=9 format=3 uid="uid://shim4hh05l0q"]
 
 [ext_resource type="Script" uid="uid://do6ccsl3eyv3d" path="res://scenes/main_menu/button_main_menu.gd" id="1_5seab"]
 [ext_resource type="PackedScene" uid="uid://cbvi7stvm27nc" path="res://scenes/fondo/fondo.tscn" id="1_ob46e"]
@@ -7,6 +7,7 @@
 [ext_resource type="StyleBox" uid="uid://csaef33gba7tq" path="res://styles/button_style.tres" id="3_wem23"]
 [ext_resource type="StyleBox" uid="uid://rncv8buaenqw" path="res://styles/pressed_style.tres" id="5_3ovsr"]
 [ext_resource type="StyleBox" uid="uid://6p1tycmppw42" path="res://styles/hover_style.tres" id="6_5seab"]
+[ext_resource type="AudioStream" uid="uid://d32joksch3d53" path="res://assets/sounds/music.mp3" id="8_4xg86"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -59,3 +60,8 @@ theme_override_styles/pressed = ExtResource("5_3ovsr")
 theme_override_styles/hover = ExtResource("6_5seab")
 text = "salir
 "
+
+[node name="MenuSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_4xg86")
+autoplay = true
+parameters/looping = true
