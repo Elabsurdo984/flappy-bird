@@ -1,6 +1,6 @@
 extends Control
 
-var aviable_skins: Array[Dictionary] = [
+var available_skins: Array[Dictionary] = [
 	{
 		"name": "Default",
 		"path": "res://assets/skins/pajaro_default.png",
@@ -17,6 +17,7 @@ var aviable_skins: Array[Dictionary] = [
 @onready var coins_label: Label = $CoinsLabel
 @onready var back_button: Button = $BackButton
 
+# Escena del botón de skin (la crearemos después)
 var skin_button_scene: PackedScene = preload("res://scenes/shop/skin_button.tscn")
 
 func _ready() -> void:
@@ -25,35 +26,39 @@ func _ready() -> void:
 	load_skins()
 
 func update_coins_display() -> void:
-	coins_label.text = "monedas: " + str(GameManager.get_coins())
+	coins_label.text = "Monedas: " + str(GameManager.get_coins())
 
 func load_skins() -> void:
+	# Limpiar contenedor
 	for child in skins_container.get_children():
 		child.queue_free()
 	
-	for skin_data in aviable_skins:
+	# Crear un botón por cada skin
+	for skin_data in available_skins:
 		var skin_button = skin_button_scene.instantiate()
 		skins_container.add_child(skin_button)
 		
+		# Configurar el botón
 		skin_button.setup(skin_data)
 		skin_button.skin_selected.connect(_on_skin_selected)
-		skin_button.skin_purchased.connect(_on_skin_pucharsed)
+		skin_button.skin_purchased.connect(_on_skin_purchased)
 
 func _on_skin_selected(skin_path: String) -> void:
 	GameManager.set_current_skin(skin_path)
-	print("Skin Seleccionada: ", skin_path)
+	print("Skin seleccionada: ", skin_path)
+	# Recargar todos los botones para actualizar el estado "Equipado"
+	load_skins()
 
-func _on_skin_pucharsed(skin_path: String, price: int) -> void:
+func _on_skin_purchased(skin_path: String, price: int) -> void:
 	if GameManager.unlock_skin(skin_path, price):
 		update_coins_display()
-		load_skins()
-		print("skin COmprada")
+		load_skins()  # Recargar para actualizar estados
+		print("¡Skin comprada!")
 	else:
-		print("No te alcanza")
+		print("No tienes suficientes monedas")
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
-		
 		
 		
 
