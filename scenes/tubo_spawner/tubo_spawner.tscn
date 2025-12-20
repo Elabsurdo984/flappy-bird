@@ -8,4 +8,3 @@ script = ExtResource("1_duxyu")
 PipeScene = ExtResource("2_srl3d")
 
 [node name="Timer" type="Timer" parent="."]
-autostart = true

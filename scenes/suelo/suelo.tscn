@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbpvukxei3av2"]
+
+[ext_resource type="Script" uid="uid://s1x2kt2hv15r" path="res://scenes/suelo/suelo.gd" id="1_h6yjj"]
+[ext_resource type="AudioStream" uid="uid://8m5biht63mn1" path="res://assets/sounds/hit.mp3" id="2_4it4e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4it4e"]
+size = Vector2(1149, 9)
+
+[node name="suelo" type="Area2D"]
+script = ExtResource("1_h6yjj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(578.5, 643.5)
+shape = SubResource("RectangleShape2D_4it4e")
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_4it4e")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

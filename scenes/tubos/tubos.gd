@@ -39,9 +39,6 @@ func _on_body_entered(body: Node2D) -> void:
 			$HitSound.play()
 			# Esperar a que termine el sonido
 			await $HitSound.finished
-		else:
-			# Si no hay sonido, esperar un poco de todos modos
-			await get_tree().create_timer(0.3).timeout
 		
 		# Cambiar a la escena de Game Over
 		get_tree().change_scene_to_packed(game_over_scene)

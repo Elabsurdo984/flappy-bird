@@ -2,12 +2,20 @@ extends Node2D
 
 @export var PipeScene: PackedScene
 
+var can_spawn: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Timer.timeout.connect(_on_pipe_timer_timeout)
+	$Timer.stop()
+	
+func enable_spawning() -> void:
+	can_spawn = true
+	$Timer.start()
 	
 func _on_pipe_timer_timeout() -> void:
-	spawn_pipe()
+	if can_spawn:
+		spawn_pipe()
 
 func spawn_pipe() -> void:
 	var pipe = PipeScene.instantiate()

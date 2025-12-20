@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cn18t55yrbqw7" path="res://assets/sounds/flap.mp3" id="3_ueyq7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ueyq7"]
-radius = 30.265491
+radius = 26.019224
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["player"]]
 position = Vector2(576, 341)
@@ -20,7 +20,7 @@ scale = Vector2(0.8181818, 0.8445946)
 texture = ExtResource("1_02n2h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-512, -4)
+position = Vector2(-511, -5)
 shape = SubResource("CircleShape2D_ueyq7")
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]

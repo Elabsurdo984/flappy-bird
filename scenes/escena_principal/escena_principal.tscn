@@ -1,11 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dj8elxyg7mjgw"]
+[gd_scene load_steps=8 format=3 uid="uid://dj8elxyg7mjgw"]
 
 [ext_resource type="PackedScene" uid="uid://co0wtmv0jenao" path="res://scenes/jugador/jugador.tscn" id="1_ione7"]
 [ext_resource type="PackedScene" uid="uid://cbvi7stvm27nc" path="res://scenes/fondo/fondo.tscn" id="1_xgjpm"]
+[ext_resource type="Script" uid="uid://bp7hjv1myk1d4" path="res://scenes/escena_principal/escena_principal.gd" id="1_yhppp"]
 [ext_resource type="PackedScene" uid="uid://cwwutdyfmhfb7" path="res://scenes/tubo_spawner/tubo_spawner.tscn" id="3_ap36v"]
 [ext_resource type="PackedScene" uid="uid://7xmrtq3blshw" path="res://scenes/puntaje/escena_puntaje.tscn" id="5_yhppp"]
+[ext_resource type="PackedScene" uid="uid://cmfetshy7837" path="res://scenes/countdown/countdown.tscn" id="6_fsb74"]
+[ext_resource type="PackedScene" uid="uid://bbpvukxei3av2" path="res://scenes/suelo/suelo.tscn" id="7_3uoq5"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_yhppp")
+countdown_scene = ExtResource("6_fsb74")
 
 [node name="Sprite2D" parent="." instance=ExtResource("1_xgjpm")]
 
@@ -16,3 +21,5 @@
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" parent="CanvasLayer" instance=ExtResource("5_yhppp")]
+
+[node name="suelo" parent="." instance=ExtResource("7_3uoq5")]

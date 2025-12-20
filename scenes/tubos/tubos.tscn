@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjfwyaixis0ah"]
+[gd_scene load_steps=8 format=3 uid="uid://cjfwyaixis0ah"]
 
 [ext_resource type="Script" uid="uid://b2n61j4m6rsu3" path="res://scenes/tubos/tubos.gd" id="1_b8hds"]
 [ext_resource type="Texture2D" uid="uid://x8qvfpeg7gp3" path="res://assets/tubos.png" id="1_mtpno"]
@@ -8,9 +8,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtpno"]
 size = Vector2(32.75, 440.70313)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8hds"]
-size = Vector2(1299, 18)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6bcbl"]
 size = Vector2(44, 214.4138)
@@ -41,10 +38,6 @@ shape = SubResource("RectangleShape2D_mtpno")
 position = Vector2(249.75, -323.53748)
 scale = Vector2(1, 0.96)
 shape = SubResource("RectangleShape2D_mtpno")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
-position = Vector2(27.5, 331)
-shape = SubResource("RectangleShape2D_b8hds")
 
 [node name="ScoreArea" type="Area2D" parent="."]
 position = Vector2(250, 0)

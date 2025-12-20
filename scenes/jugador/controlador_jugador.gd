@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 var gravity: float = 900.0
-var jump_force: float = -350.0  # Negativo porque en Godot el eje Y crece hacia abajo
+var jump_force: float = -280.0  # Negativo porque en Godot el eje Y crece hacia abajo
+var can_play: bool = false
 
 @onready var jump_sound: AudioStreamPlayer = $JumpSound
 @onready var sprite: Sprite2D = $Pajaro
@@ -10,8 +11,15 @@ func _ready() -> void:
 	var skin_texture = load(GameManager.get_current_skin())
 	if skin_texture:
 		sprite.texture = skin_texture
-
+		
+		
+func enable_gameplay() -> void:
+	can_play = true
+	
 func _physics_process(delta: float) -> void:
+	if not can_play:
+		return
+	
 	# Aplicar gravedad (que lo hace caer)
 	velocity.y += gravity * delta
 
