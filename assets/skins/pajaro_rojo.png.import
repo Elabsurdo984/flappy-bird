@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bttxfij5l1da2"
-path="res://.godot/imported/pajaro.png-ae548f7e3dce7a8f9f0e8649a6374c93.ctex"
+uid="uid://cqyp41k0brs4i"
+path="res://.godot/imported/pajaro_rojo.png-eddb7c1983289b88421068b2d0bccf50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pajaro.png"
-dest_files=["res://.godot/imported/pajaro.png-ae548f7e3dce7a8f9f0e8649a6374c93.ctex"]
+source_file="res://assets/skins/pajaro_rojo.png"
+dest_files=["res://.godot/imported/pajaro_rojo.png-eddb7c1983289b88421068b2d0bccf50.ctex"]
 
 [params]
 

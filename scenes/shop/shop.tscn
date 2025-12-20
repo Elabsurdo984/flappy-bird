@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://cv2phguyvg0jn"]
+
+[ext_resource type="PackedScene" uid="uid://cbvi7stvm27nc" path="res://scenes/fondo/fondo.tscn" id="1_100s2"]
+[ext_resource type="Script" uid="uid://ctlsyp5kl5yhj" path="res://scenes/shop/shop.gd" id="1_jp048"]
+[ext_resource type="FontFile" uid="uid://0nd5mqqmlmh8" path="res://assets/BotsmaticDemo-MXOr.ttf" id="2_qaxay"]
+[ext_resource type="FontFile" uid="uid://gl5yj4pah2oh" path="res://assets/FlappyBirdRegular-9Pq0.ttf" id="3_7lxhl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7lxhl"]
+font = ExtResource("2_qaxay")
+font_size = 70
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jp048"]
+bg_color = Color(0.6314451, 0.13415533, 9.62615e-08, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_ctpgp"]
+font = ExtResource("3_7lxhl")
+font_size = 60
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jp048")
+
+[node name="Sprite2D" parent="." instance=ExtResource("1_100s2")]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -353.0
+offset_top = -226.0
+offset_right = 342.0
+offset_bottom = 287.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 379.0
+offset_top = -32.0
+offset_right = 764.0
+offset_bottom = 106.0
+text = "tienda"
+label_settings = SubResource("LabelSettings_7lxhl")
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 1092.0
+offset_top = -5.0
+offset_right = 1152.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("2_qaxay")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_jp048")
+text = "X"
+
+[node name="CoinsLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 236.0
+offset_bottom = 70.0
+text = "Monedas: 0"
+label_settings = SubResource("LabelSettings_ctpgp")
