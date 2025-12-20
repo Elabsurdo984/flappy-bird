@@ -10,7 +10,12 @@ var available_skins: Array[Dictionary] = [
 		"name": "Rojo",
 		"path": "res://assets/skins/pajaro_rojo.png",
 		"price": 5
-	}
+	},
+	{
+		"name": "Verde",
+		"path": "res://assets/skins/pajaro_verde.png",
+		"price": 10
+	},
 ]
 
 @onready var skins_container: GridContainer = $ScrollContainer/GridContainer

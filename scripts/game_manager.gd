@@ -8,7 +8,8 @@ var unlocked_skins: Array[String] = [
 
 var skin_prices: Dictionary = {
 	"res://assets/pajaro_default.png": 0,
-	"res://assets/pajaro_rojo.png": 5
+	"res://assets/pajaro_rojo.png": 5,
+	"res://assets/pajaro_verde.png": 10
 }
 
 var total_coins: int = 0
