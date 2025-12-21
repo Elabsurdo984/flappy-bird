@@ -31,3 +31,7 @@ func _physics_process(delta: float) -> void:
 
 	# Mover el pájaro con la velocidad calculada
 	move_and_slide()
+
+	# Agregar rotación basada en velocidad
+	var target_rotation = clamp(velocity.y / 500.0, -0.5, 0.5)
+	sprite.rotation = lerp(sprite.rotation, target_rotation, 0.1)

@@ -25,6 +25,6 @@ func spawn_pipe() -> void:
 	pipe.position.x = 400  # pon aquí el ancho de tu viewport o un poco más
 	
 	# Altura aleatoria del hueco
-	var min_y := 200
+	var min_y := 100
 	var max_y := 400
 	pipe.position.y = randf_range(min_y, max_y)
