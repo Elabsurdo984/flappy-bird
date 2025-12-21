@@ -58,9 +58,21 @@ func _on_skin_purchased(skin_path: String, price: int) -> void:
 	if GameManager.unlock_skin(skin_path, price):
 		update_coins_display()
 		load_skins()  # Recargar para actualizar estados
-		print("¡Skin comprada!")
+		show_message("¡Skin comprada!", Color.GREEN)
 	else:
-		print("No tienes suficientes monedas")
+		show_message("No tienes suficientes monedas", Color.RED)
+		
+
+func show_message(text: String, color: Color) -> void:
+	var label = Label.new()
+	label.text = text
+	label.modulate = color
+	label.position = Vector2(500, 300)
+	add_child(label)
+	
+	var tween = create_tween()
+	tween.tween_property(label, "modulate:a", 0.0, 1.5)
+	tween.tween_callback(label.queue_free)
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")

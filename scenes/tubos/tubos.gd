@@ -63,3 +63,7 @@ func _on_body_entered(body: Node2D) -> void:
 		
 	# Cambiar a la escena de Game Over
 	get_tree().change_scene_to_packed(game_over_scene)
+	
+func _exit_tree() -> void:
+	if GameManager.speed_increased.is_connected(_on_speed_increased):
+		GameManager.speed_increased.disconnect(_on_speed_increased)
