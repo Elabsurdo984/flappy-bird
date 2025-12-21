@@ -16,19 +16,44 @@ var skin_prices: Dictionary = {
 
 var total_coins: int = 0
 
+# Sistema de velocidad
+var base_speed: float = 200.0
+var speed_increment: float = 20.0  # Cuánto aumenta la velocidad cada vez
+var points_per_speed_increase: int = 10  # Cada cuántos puntos aumenta
+var current_speed_multiplier: float = 1.0
+
+signal speed_increased(new_speed: float)
+
 func _ready() -> void:
 	load_game()
 
 func reset_score() -> void:
 	score = 0
+	current_speed_multiplier = 1.0
 
 func add_score(amount: int = 1) -> void:
+	var old_score = score
 	score += amount
 	total_coins += amount
+	
+	# Verificar si alcanzamos un múltiplo de 20 (usar división entera explícitamente)
+	var old_level = int(old_score / points_per_speed_increase)
+	var new_level = int(score / points_per_speed_increase)
+	
+	if new_level > old_level:
+		# Aumentar velocidad
+		current_speed_multiplier = 1.0 + (float(new_level) * (speed_increment / base_speed))
+		var new_speed = base_speed * current_speed_multiplier
+		speed_increased.emit(new_speed)
+		print("¡Velocidad aumentada! Nueva velocidad: ", new_speed)
+	
 	save_game()  # Guardar automáticamente cuando se ganan monedas
 	
 func get_score() -> int:
 	return score
+
+func get_current_speed() -> float:
+	return base_speed * current_speed_multiplier
 
 func get_coins() -> int:
 	return total_coins
