@@ -2,10 +2,10 @@
 
 [ext_resource type="FontFile" uid="uid://0nd5mqqmlmh8" path="res://assets/BotsmaticDemo-MXOr.ttf" id="1_3j056"]
 [ext_resource type="Script" uid="uid://c8abp5ty0fhbd" path="res://scenes/game_over/game_over.gd" id="1_sseyc"]
-[ext_resource type="StyleBox" uid="uid://csaef33gba7tq" path="res://styles/button_style.tres" id="3_anb0t"]
-[ext_resource type="StyleBox" uid="uid://rncv8buaenqw" path="res://styles/pressed_style.tres" id="4_iqjl0"]
-[ext_resource type="LabelSettings" uid="uid://ckge21bq7fha8" path="res://styles/game_over_style.tres" id="4_vtso4"]
-[ext_resource type="StyleBox" uid="uid://6p1tycmppw42" path="res://styles/hover_style.tres" id="5_3mpp1"]
+[ext_resource type="StyleBox" uid="uid://csaef33gba7tq" path="res://styles/button/button_style.tres" id="3_anb0t"]
+[ext_resource type="StyleBox" uid="uid://rncv8buaenqw" path="res://styles/button/pressed_style.tres" id="4_iqjl0"]
+[ext_resource type="LabelSettings" uid="uid://ckge21bq7fha8" path="res://styles/button/game_over_style.tres" id="4_vtso4"]
+[ext_resource type="StyleBox" uid="uid://6p1tycmppw42" path="res://styles/button/hover_style.tres" id="5_3mpp1"]
 [ext_resource type="FontFile" uid="uid://gl5yj4pah2oh" path="res://assets/FlappyBirdRegular-9Pq0.ttf" id="7_3mpp1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1tbv"]

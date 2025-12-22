@@ -18,14 +18,20 @@ var total_coins: int = 0
 
 # Sistema de velocidad
 var base_speed: float = 200.0
-var speed_increment: float = 20.0  # Cuánto aumenta la velocidad cada vez
-var points_per_speed_increase: int = 10  # Cada cuántos puntos aumenta
+var speed_increment: float = 20.0
+var points_per_speed_increase: int = 10
 var current_speed_multiplier: float = 1.0
 
+# Sistema de volumen
+var music_volume: float = 0.8  # 0.0 a 1.0
+var sfx_volume: float = 0.8    # 0.0 a 1.0
+
 signal speed_increased(new_speed: float)
+signal volume_changed()
 
 func _ready() -> void:
 	load_game()
+	apply_audio_settings()
 
 func reset_score() -> void:
 	score = 0
@@ -36,18 +42,16 @@ func add_score(amount: int = 1) -> void:
 	score += amount
 	total_coins += amount
 	
-	# Verificar si alcanzamos un múltiplo de 20 (usar división entera explícitamente)
 	var old_level = int(old_score / points_per_speed_increase)
 	var new_level = int(score / points_per_speed_increase)
 	
 	if new_level > old_level:
-		# Aumentar velocidad
 		current_speed_multiplier = 1.0 + (float(new_level) * (speed_increment / base_speed))
 		var new_speed = base_speed * current_speed_multiplier
 		speed_increased.emit(new_speed)
 		print("¡Velocidad aumentada! Nueva velocidad: ", new_speed)
 	
-	save_game()  # Guardar automáticamente cuando se ganan monedas
+	save_game()
 	
 func get_score() -> int:
 	return score
@@ -60,7 +64,7 @@ func get_coins() -> int:
 
 func set_current_skin(skin_path: String) -> void:
 	current_skin = skin_path
-	save_game()  # Guardar cuando se cambia la skin
+	save_game()
 
 func get_current_skin() -> String:
 	return current_skin
@@ -72,15 +76,52 @@ func unlock_skin(skin_path: String, price: int) -> bool:
 	if total_coins >= price and not is_skin_unlocked(skin_path):
 		total_coins -= price
 		unlocked_skins.append(skin_path)
-		save_game()  # Guardar después de comprar una skin
+		save_game()
 		return true
 	return false
+
+# Funciones de volumen
+func set_music_volume(value: float) -> void:
+	music_volume = clamp(value, 0.0, 1.0)
+	apply_audio_settings()
+	save_game()
+
+func set_sfx_volume(value: float) -> void:
+	sfx_volume = clamp(value, 0.0, 1.0)
+	apply_audio_settings()
+	save_game()
+
+func get_music_volume() -> float:
+	return music_volume
+
+func get_sfx_volume() -> float:
+	return sfx_volume
+
+func apply_audio_settings() -> void:
+	# Convertir de 0-1 a decibelios (-80 a 0)
+	# 0.0 = -80db (silencio), 1.0 = 0db (máximo)
+	var music_db = linear_to_db(music_volume) if music_volume > 0 else -80
+	var sfx_db = linear_to_db(sfx_volume) if sfx_volume > 0 else -80
+	
+	# Aplicar a los buses de audio
+	var music_bus_idx = AudioServer.get_bus_index("Music")
+	var sfx_bus_idx = AudioServer.get_bus_index("SFX")
+	
+	if music_bus_idx != -1:
+		AudioServer.set_bus_volume_db(music_bus_idx, music_db)
+	
+	if sfx_bus_idx != -1:
+		AudioServer.set_bus_volume_db(sfx_bus_idx, sfx_db)
+	
+	volume_changed.emit()
 
 func save_game() -> void:
 	var save_data = {
 		"total_coins": total_coins,
 		"current_skin": current_skin,
-		"unlocked_skins": unlocked_skins
+		"unlocked_skins": unlocked_skins,
+		"music_volume": music_volume,
+		"sfx_volume": sfx_volume
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -88,7 +129,6 @@ func save_game() -> void:
 		var json_string = JSON.stringify(save_data)
 		file.store_string(json_string)
 		file.close()
-		print("Juego guardado: ", total_coins, " monedas")
 	else:
 		print("Error al guardar el juego")
 
@@ -109,8 +149,9 @@ func load_game() -> void:
 			var save_data = json.data
 			total_coins = save_data.get("total_coins", 0)
 			current_skin = save_data.get("current_skin", "res://assets/skins/pajaro_default.png")
+			music_volume = save_data.get("music_volume", 0.8)
+			sfx_volume = save_data.get("sfx_volume", 0.8)
 			
-			# Convertir el Array genérico a Array[String]
 			var loaded_skins = save_data.get("unlocked_skins", ["res://assets/skins/pajaro_default.png"])
 			unlocked_skins.clear()
 			for skin in loaded_skins:

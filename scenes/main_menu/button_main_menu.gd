@@ -1,11 +1,10 @@
 extends Control
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$VBoxContainer/BotonJugar.pressed.connect(_on_pressed_boton_jugar)
 	$VBoxContainer/BotonSalir.pressed.connect(_on_pressed_boton_salir)
 	$VBoxContainer/BotonTienda.pressed.connect(_on_pressed_boton_tienda)
+	$VBoxContainer/BotonConfiguracion.pressed.connect(_on_pressed_boton_configuracion)
 
 func _on_pressed_boton_jugar() -> void:
 	get_tree().change_scene_to_file("res://scenes/escena_principal/escena_principal.tscn")
@@ -15,3 +14,6 @@ func _on_pressed_boton_salir() -> void:
 
 func _on_pressed_boton_tienda() -> void:
 	get_tree().change_scene_to_file("res://scenes/shop/shop.tscn")
+
+func _on_pressed_boton_configuracion() -> void:
+	get_tree().change_scene_to_file("res://scenes/settings/settings.tscn")
