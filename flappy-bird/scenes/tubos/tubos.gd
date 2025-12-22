@@ -43,11 +43,10 @@ func _on_score_area_body_entered(body: Node2D) -> void:
 		print("¡Punto! Puntaje actual: ", GameManager.get_score())
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
+	if has_collided:
+		return
 	has_collided = true
-		
-	# Detener el movimiento del jugador
-	body.set_physics_process(false)
 		
 	# Detener el spawner de tubos
 	var spawner = get_tree().get_first_node_in_group("tubo_spawner")

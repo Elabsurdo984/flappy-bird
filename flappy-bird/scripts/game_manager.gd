@@ -16,6 +16,9 @@ var skin_prices: Dictionary = {
 
 var total_coins: int = 0
 
+# Sistema de High Score
+var high_score: int = 0
+
 # Sistema de velocidad
 var base_speed: float = 200.0
 var speed_increment: float = 20.0
@@ -42,6 +45,11 @@ func add_score(amount: int = 1) -> void:
 	score += amount
 	total_coins += amount
 	
+	# Actualizar high score si es necesario
+	if score > high_score:
+		high_score = score
+		save_game()  # Guardar el nuevo récord inmediatamente
+	
 	var old_level = int(old_score / points_per_speed_increase)
 	var new_level = int(score / points_per_speed_increase)
 	
@@ -55,6 +63,12 @@ func add_score(amount: int = 1) -> void:
 	
 func get_score() -> int:
 	return score
+
+func get_high_score() -> int:
+	return high_score
+
+func is_new_record() -> bool:
+	return score == high_score and score > 0
 
 func get_current_speed() -> float:
 	return base_speed * current_speed_multiplier
@@ -121,7 +135,8 @@ func save_game() -> void:
 		"current_skin": current_skin,
 		"unlocked_skins": unlocked_skins,
 		"music_volume": music_volume,
-		"sfx_volume": sfx_volume
+		"sfx_volume": sfx_volume,
+		"high_score": high_score
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -151,6 +166,7 @@ func load_game() -> void:
 			current_skin = save_data.get("current_skin", "res://assets/skins/pajaro_default.png")
 			music_volume = save_data.get("music_volume", 0.8)
 			sfx_volume = save_data.get("sfx_volume", 0.8)
+			high_score = save_data.get("high_score", 0)
 			
 			var loaded_skins = save_data.get("unlocked_skins", ["res://assets/skins/pajaro_default.png"])
 			unlocked_skins.clear()

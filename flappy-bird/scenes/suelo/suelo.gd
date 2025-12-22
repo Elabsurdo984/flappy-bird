@@ -2,7 +2,11 @@ extends Area2D
 
 @onready var hit_sound: AudioStreamPlayer = $HitSound
 
-func _on_body_entered(_body: Node2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
+	# Llamar a la función de muerte del jugador
+	if body.has_method("die"):
+		body.die()
+	
 	if has_node("HitSound"):
 		$HitSound.process_mode = Node.PROCESS_MODE_ALWAYS
 		$HitSound.play()

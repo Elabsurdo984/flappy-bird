@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://shim4hh05l0q"]
+[gd_scene load_steps=10 format=3 uid="uid://shim4hh05l0q"]
 
 [ext_resource type="Script" uid="uid://do6ccsl3eyv3d" path="res://scenes/main_menu/button_main_menu.gd" id="1_5seab"]
 [ext_resource type="PackedScene" uid="uid://cbvi7stvm27nc" path="res://scenes/fondo/fondo.tscn" id="1_ob46e"]
@@ -8,6 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://rncv8buaenqw" path="res://styles/button/pressed_style.tres" id="5_3ovsr"]
 [ext_resource type="StyleBox" uid="uid://6p1tycmppw42" path="res://styles/button/hover_style.tres" id="6_5seab"]
 [ext_resource type="AudioStream" uid="uid://d32joksch3d53" path="res://assets/sounds/music.mp3" id="8_4xg86"]
+[ext_resource type="FontFile" uid="uid://gl5yj4pah2oh" path="res://assets/FlappyBirdRegular-9Pq0.ttf" id="9_thkx5"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -20,7 +21,7 @@ script = ExtResource("1_5seab")
 
 [node name="Sprite2D" parent="." instance=ExtResource("1_ob46e")]
 
-[node name="Label" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
 layout_mode = 0
 offset_right = 1154.0
 offset_bottom = 118.0
@@ -82,3 +83,13 @@ stream = ExtResource("8_4xg86")
 autoplay = true
 bus = &"Music"
 parameters/looping = true
+
+[node name="HighScoreLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 188.0
+offset_right = 327.0
+offset_bottom = 229.0
+theme_override_fonts/font = ExtResource("9_thkx5")
+theme_override_font_sizes/font_size = 50
+text = "Mejor Puntaje: 0"
