@@ -1,0 +1,123 @@
+name: Build and Deploy Flappy Bird
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [web, windows, linux, macos]
+        include:
+          - platform: web
+            export_preset: HTML5
+            artifact_name: flappy-bird-web
+            butler_channel: html5
+          - platform: windows
+            export_preset: Windows Desktop
+            artifact_name: flappy-bird-windows
+            butler_channel: windows
+          - platform: linux
+            export_preset: Linux/X11
+            artifact_name: flappy-bird-linux
+            butler_channel: linux
+          - platform: macos
+            export_preset: macOS
+            artifact_name: flappy-bird-macos
+            butler_channel: macos
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Godot
+      uses: barichello/godot-ci@4.3
+      with:
+        godot_version: 4.3
+        godot_export_templates_version: 4.3
+
+    - name: Export game for ${{ matrix.platform }}
+      run: |
+        mkdir -p builds/${{ matrix.platform }}
+        godot --headless --export-release "${{ matrix.export_preset }}" "builds/${{ matrix.platform }}/game.${{ matrix.platform == 'web' && 'html' || matrix.platform == 'windows' && 'exe' || matrix.platform == 'linux' && 'x86_64' || 'app' }}"
+
+    - name: Prepare artifact for ${{ matrix.platform }}
+      run: |
+        cd builds/${{ matrix.platform }}
+        if [ "${{ matrix.platform }}" == "web" ]; then
+          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+        elif [ "${{ matrix.platform }}" == "windows" ]; then
+          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+        elif [ "${{ matrix.platform }}" == "linux" ]; then
+          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+        else
+          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+        fi
+        cd ../..
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact_name }}-${{ github.ref_name }}
+        path: ${{ matrix.artifact_name }}-${{ github.ref_name }}.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: artifacts/**/*.zip
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-itch:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Setup Butler
+      run: |
+        wget https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -O butler.zip
+        unzip butler.zip
+        chmod +x butler
+        sudo mv butler /usr/local/bin/
+
+    - name: Login to itch.io
+      run: butler login
+      env:
+        BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
+
+    - name: Push to itch.io
+      run: |
+        butler push artifacts/flappy-bird-web-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:html5 --userversion ${{ github.ref_name }}
+        butler push artifacts/flappy-bird-windows-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:windows --userversion ${{ github.ref_name }}
+        butler push artifacts/flappy-bird-linux-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:linux --userversion ${{ github.ref_name }}
+        butler push artifacts/flappy-bird-macos-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ github.ref_name }}
