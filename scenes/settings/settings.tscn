@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bbnu5q68tebdq"]
 
-[ext_resource type="Script" uid="uid://dxrb3qnov2cnd" path="res://settings.gd" id="1_26ncd"]
+[ext_resource type="Script" uid="uid://dxrb3qnov2cnd" path="res://scenes/settings/settings.gd" id="1_26ncd"]
 [ext_resource type="PackedScene" uid="uid://cbvi7stvm27nc" path="res://scenes/fondo/fondo.tscn" id="2_tt6xx"]
 [ext_resource type="FontFile" uid="uid://0nd5mqqmlmh8" path="res://assets/BotsmaticDemo-MXOr.ttf" id="3_1slea"]
 [ext_resource type="FontFile" uid="uid://gl5yj4pah2oh" path="res://assets/FlappyBirdRegular-9Pq0.ttf" id="4_1slea"]
@@ -96,4 +96,3 @@ text = "X"
 
 [node name="TestSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_v1hle")
-bus = &"SFX"

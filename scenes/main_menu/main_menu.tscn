@@ -81,7 +81,6 @@ text = "salir
 [node name="MenuSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_4xg86")
 autoplay = true
-bus = &"Music"
 parameters/looping = true
 
 [node name="HighScoreLabel" type="Label" parent="."]

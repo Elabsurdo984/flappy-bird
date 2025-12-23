@@ -25,4 +25,3 @@ shape = SubResource("CircleShape2D_ueyq7")
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ueyq7")
-bus = &"SFX"
