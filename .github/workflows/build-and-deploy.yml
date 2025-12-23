@@ -27,10 +27,6 @@ jobs:
             export_preset: Linux
             artifact_name: flappy-bird-linux
             butler_channel: linux
-          - platform: macos
-            export_preset: macOS
-            artifact_name: flappy-bird-macos
-            butler_channel: macos
 
     steps:
     - name: Checkout code
@@ -77,8 +73,6 @@ jobs:
           godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.exe
         elif [ "${{ matrix.platform }}" == "linux" ]; then
           godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.x86_64
-        else
-          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.app
         fi
         echo "Export completed for ${{ matrix.platform }}"
 
@@ -194,18 +188,4 @@ jobs:
         cd artifacts/flappy-bird-linux
         unzip flappy-bird-linux.zip -d linux_build
         butler push linux_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:linux --userversion ${{ steps.version.outputs.VERSION }}
-      continue-on-error: true
-
-    - name: Push macOS build to itch.io
-      run: |
-        cd artifacts/flappy-bird-macos
-        unzip flappy-bird-macos.zip -d macos_build
-        cd macos_build
-        if [ -d "flappy-bird.app" ]; then
-          zip -r flappy-bird-macos.zip flappy-bird.app
-          butler push flappy-bird-macos.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ steps.version.outputs.VERSION }}
-        else
-          cd ..
-          butler push macos_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ steps.version.outputs.VERSION }}
-        fi
       continue-on-error: true
