@@ -40,7 +40,7 @@ jobs:
         export-templates: true
       run: |
         mkdir -p builds/${{ matrix.platform }}
-        godot --headless --export-release "${{ matrix.export_preset }}" "builds/${{ matrix.platform }}/game.${{ matrix.platform == 'web' && 'html' || matrix.platform == 'windows' && 'exe' || matrix.platform == 'linux' && 'x86_64' || 'app' }}"
+        ${{ matrix.platform == 'web' && 'godot --headless --export-release "HTML5" "builds/web/index.html"' || matrix.platform == 'windows' && 'godot --headless --export-release "Windows Desktop" "builds/windows/flappy-bird.exe"' || matrix.platform == 'linux' && 'godot --headless --export-release "Linux/X11" "builds/linux/flappy-bird.x86_64"' || 'godot --headless --export-release "macOS" "builds/macos/flappy-bird.zip"' }}
 
     - name: Prepare artifact for ${{ matrix.platform }}
       run: |
@@ -48,11 +48,11 @@ jobs:
         if [ "${{ matrix.platform }}" == "web" ]; then
           zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
         elif [ "${{ matrix.platform }}" == "windows" ]; then
-          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+          zip ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip flappy-bird.exe
         elif [ "${{ matrix.platform }}" == "linux" ]; then
-          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+          zip ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip flappy-bird.x86_64
         else
-          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
+          zip ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip flappy-bird.zip
         fi
         cd ../..
 
