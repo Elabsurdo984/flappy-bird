@@ -1,4 +1,4 @@
-name: Build and Deploy Wing Bird
+name: Build and Deploy Flappy Bird
 
 on:
   push:
@@ -17,19 +17,19 @@ jobs:
         include:
           - platform: web
             export_preset: Web
-            artifact_name: wing-bird-web
+            artifact_name: flappy-bird-web
             butler_channel: html5
           - platform: windows
             export_preset: Windows Desktop
-            artifact_name: wing-bird-windows
+            artifact_name: flappy-bird-windows
             butler_channel: windows
           - platform: linux
             export_preset: Linux
-            artifact_name: wing-bird-linux
+            artifact_name: flappy-bird-linux
             butler_channel: linux
           - platform: macos
             export_preset: macOS
-            artifact_name: wing-bird-macos
+            artifact_name: flappy-bird-macos
             butler_channel: macos
 
     steps:
@@ -39,7 +39,7 @@ jobs:
     - name: Setup Godot
       uses: chickensoft-games/setup-godot@v2
       with:
-        version: 4.5.0
+        version: 4.3.0
         use-dotnet: false
         include-templates: true
 
@@ -48,16 +48,38 @@ jobs:
         godot --version
         ls -la ~/.local/share/godot/export_templates/ || echo "Templates directory not found"
 
+    - name: Verify project structure
+      run: |
+        echo "Current directory:"
+        pwd
+        echo "Files in current directory:"
+        ls -la
+        echo "Checking for project.godot:"
+        if [ -f "project.godot" ]; then
+          echo "✅ project.godot found"
+        else
+          echo "❌ project.godot NOT found"
+          exit 1
+        fi
+
     - name: Import project resources
       run: |
         mkdir -p .godot/imported
-        timeout 60 godot --headless --editor --quit || true
+        timeout 60 godot --headless --editor --quit-after 1 || true
         echo "Project import completed"
 
     - name: Export game for ${{ matrix.platform }}
       run: |
         mkdir -p builds/${{ matrix.platform }}
-        godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/output
+        if [ "${{ matrix.platform }}" == "web" ]; then
+          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/index.html
+        elif [ "${{ matrix.platform }}" == "windows" ]; then
+          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.exe
+        elif [ "${{ matrix.platform }}" == "linux" ]; then
+          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.x86_64
+        else
+          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.app
+        fi
         echo "Export completed for ${{ matrix.platform }}"
 
     - name: List exported files
@@ -178,5 +200,12 @@ jobs:
       run: |
         cd artifacts/flappy-bird-macos
         unzip flappy-bird-macos.zip -d macos_build
-        butler push macos_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ steps.version.outputs.VERSION }}
+        cd macos_build
+        if [ -d "flappy-bird.app" ]; then
+          zip -r flappy-bird-macos.zip flappy-bird.app
+          butler push flappy-bird-macos.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ steps.version.outputs.VERSION }}
+        else
+          cd ..
+          butler push macos_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ steps.version.outputs.VERSION }}
+        fi
       continue-on-error: true
