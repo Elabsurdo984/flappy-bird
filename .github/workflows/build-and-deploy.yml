@@ -39,7 +39,7 @@ jobs:
     - name: Setup Godot
       uses: chickensoft-games/setup-godot@v2
       with:
-        version: 4.5.0
+        version: 4.3.0
         use-dotnet: false
         include-templates: true
 
@@ -72,13 +72,13 @@ jobs:
       run: |
         mkdir -p builds/${{ matrix.platform }}
         if [ "${{ matrix.platform }}" == "web" ]; then
-          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/index.html
+          godot --verbose --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/index.html
         elif [ "${{ matrix.platform }}" == "windows" ]; then
-          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.exe
+          godot --verbose --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.exe
         elif [ "${{ matrix.platform }}" == "linux" ]; then
-          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.x86_64
+          godot --verbose --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.x86_64
         elif [ "${{ matrix.platform }}" == "macos" ]; then
-          godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.zip
+          godot --verbose --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/flappy-bird.zip
         fi
         echo "Export completed for ${{ matrix.platform }}"
 
