@@ -1,4 +1,4 @@
-name: Build and Deploy Flappy Bird
+name: Build and Deploy Wing Bird
 
 on:
   push:
@@ -16,66 +16,76 @@ jobs:
         platform: [web, windows, linux, macos]
         include:
           - platform: web
-            export_preset: HTML5
-            artifact_name: flappy-bird-web
+            export_preset: Web
+            artifact_name: wing-bird-web
             butler_channel: html5
           - platform: windows
             export_preset: Windows Desktop
-            artifact_name: flappy-bird-windows
+            artifact_name: wing-bird-windows
             butler_channel: windows
           - platform: linux
-            export_preset: Linux/X11
-            artifact_name: flappy-bird-linux
+            export_preset: Linux
+            artifact_name: wing-bird-linux
             butler_channel: linux
           - platform: macos
             export_preset: macOS
-            artifact_name: flappy-bird-macos
+            artifact_name: wing-bird-macos
             butler_channel: macos
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     - name: Setup Godot
-      uses: godot-actions/setup-godot@v1
+      uses: chickensoft-games/setup-godot@v2
       with:
-        godot-version: 4.5
-        export-templates: true
+        version: 4.5.0
+        use-dotnet: false
+        include-templates: true
+
+    - name: Verify Godot installation
+      run: |
+        godot --version
+        ls -la ~/.local/share/godot/export_templates/ || echo "Templates directory not found"
+
+    - name: Import project resources
+      run: |
+        mkdir -p .godot/imported
+        timeout 60 godot --headless --editor --quit || true
+        echo "Project import completed"
 
     - name: Export game for ${{ matrix.platform }}
       run: |
         mkdir -p builds/${{ matrix.platform }}
-        if [ "${{ matrix.platform }}" == "web" ]; then
-          godot --headless --export-release "HTML5" "builds/web/index.html"
-        elif [ "${{ matrix.platform }}" == "windows" ]; then
-          godot --headless --export-release "Windows Desktop" "builds/windows/flappy-bird.exe"
-        elif [ "${{ matrix.platform }}" == "linux" ]; then
-          godot --headless --export-release "Linux/X11" "builds/linux/flappy-bird.x86_64"
-        else
-          godot --headless --export-release "macOS" "builds/macos/flappy-bird.zip"
-        fi
+        godot --headless --export-release "${{ matrix.export_preset }}" builds/${{ matrix.platform }}/output
+        echo "Export completed for ${{ matrix.platform }}"
+
+    - name: List exported files
+      run: |
+        echo "Contents of builds/${{ matrix.platform }}:"
+        ls -la builds/${{ matrix.platform }}/
 
     - name: Prepare artifact for ${{ matrix.platform }}
       run: |
         cd builds/${{ matrix.platform }}
-        if [ "${{ matrix.platform }}" == "web" ]; then
-          zip -r ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip .
-        elif [ "${{ matrix.platform }}" == "windows" ]; then
-          zip ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip flappy-bird.exe
-        elif [ "${{ matrix.platform }}" == "linux" ]; then
-          zip ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip flappy-bird.x86_64
-        else
-          zip ../../${{ matrix.artifact_name }}-${{ github.ref_name }}.zip flappy-bird.zip
-        fi
+        zip -r ../../${{ matrix.artifact_name }}.zip ./*
         cd ../..
+        echo "Artifact created: ${{ matrix.artifact_name }}.zip"
+        ls -lh ${{ matrix.artifact_name }}.zip
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.artifact_name }}-${{ github.ref_name }}
-        path: ${{ matrix.artifact_name }}-${{ github.ref_name }}.zip
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.artifact_name }}.zip
+        retention-days: 7
 
   release:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout code
@@ -86,18 +96,31 @@ jobs:
       with:
         path: artifacts
 
+    - name: Display structure of downloaded files
+      run: |
+        echo "Artifacts structure:"
+        ls -R artifacts/
+
+    - name: Prepare release files
+      run: |
+        mkdir -p release_files
+        find artifacts -name "*.zip" -exec cp {} release_files/ \;
+        ls -lh release_files/
+
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        files: artifacts/**/*.zip
+        files: release_files/*.zip
         generate_release_notes: true
+        draft: false
+        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-itch:
     needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') && vars.ENABLE_ITCH_DEPLOY == 'true'
 
     steps:
     - name: Checkout code
@@ -108,21 +131,52 @@ jobs:
       with:
         path: artifacts
 
+    - name: Display artifacts
+      run: |
+        echo "Downloaded artifacts:"
+        ls -R artifacts/
+
     - name: Setup Butler
       run: |
-        wget https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -O butler.zip
+        curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
         unzip butler.zip
         chmod +x butler
         sudo mv butler /usr/local/bin/
+        butler -V
 
     - name: Login to itch.io
       run: butler login
       env:
         BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
 
-    - name: Push to itch.io
+    - name: Extract version from tag
+      id: version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+    - name: Push Web build to itch.io
       run: |
-        butler push artifacts/flappy-bird-web-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:html5 --userversion ${{ github.ref_name }}
-        butler push artifacts/flappy-bird-windows-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:windows --userversion ${{ github.ref_name }}
-        butler push artifacts/flappy-bird-linux-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:linux --userversion ${{ github.ref_name }}
-        butler push artifacts/flappy-bird-macos-${{ github.ref_name }}.zip ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ github.ref_name }}
+        cd artifacts/flappy-bird-web
+        unzip flappy-bird-web.zip -d web_build
+        butler push web_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:html5 --userversion ${{ steps.version.outputs.VERSION }}
+      continue-on-error: true
+
+    - name: Push Windows build to itch.io
+      run: |
+        cd artifacts/flappy-bird-windows
+        unzip flappy-bird-windows.zip -d windows_build
+        butler push windows_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:windows --userversion ${{ steps.version.outputs.VERSION }}
+      continue-on-error: true
+
+    - name: Push Linux build to itch.io
+      run: |
+        cd artifacts/flappy-bird-linux
+        unzip flappy-bird-linux.zip -d linux_build
+        butler push linux_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:linux --userversion ${{ steps.version.outputs.VERSION }}
+      continue-on-error: true
+
+    - name: Push macOS build to itch.io
+      run: |
+        cd artifacts/flappy-bird-macos
+        unzip flappy-bird-macos.zip -d macos_build
+        butler push macos_build ${{ secrets.ITCH_USER }}/${{ secrets.ITCH_GAME }}:macos --userversion ${{ steps.version.outputs.VERSION }}
+      continue-on-error: true
