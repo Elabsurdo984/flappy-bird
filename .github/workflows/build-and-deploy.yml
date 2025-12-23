@@ -33,16 +33,11 @@ jobs:
             butler_channel: macos
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
     - name: Setup Godot
-      uses: barichello/godot-ci@4.3
+      uses: godot-actions/setup-godot@v1
       with:
-        godot_version: 4.3
-        godot_export_templates_version: 4.3
-
-    - name: Export game for ${{ matrix.platform }}
+        godot-version: 4.5
+        export-templates: true
       run: |
         mkdir -p builds/${{ matrix.platform }}
         godot --headless --export-release "${{ matrix.export_preset }}" "builds/${{ matrix.platform }}/game.${{ matrix.platform == 'web' && 'html' || matrix.platform == 'windows' && 'exe' || matrix.platform == 'linux' && 'x86_64' || 'app' }}"
