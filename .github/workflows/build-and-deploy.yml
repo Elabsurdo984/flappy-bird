@@ -38,9 +38,19 @@ jobs:
       with:
         godot-version: 4.5
         export-templates: true
+
+    - name: Export game for ${{ matrix.platform }}
       run: |
         mkdir -p builds/${{ matrix.platform }}
-        ${{ matrix.platform == 'web' && 'godot --headless --export-release "HTML5" "builds/web/index.html"' || matrix.platform == 'windows' && 'godot --headless --export-release "Windows Desktop" "builds/windows/flappy-bird.exe"' || matrix.platform == 'linux' && 'godot --headless --export-release "Linux/X11" "builds/linux/flappy-bird.x86_64"' || 'godot --headless --export-release "macOS" "builds/macos/flappy-bird.zip"' }}
+        if [ "${{ matrix.platform }}" == "web" ]; then
+          godot --headless --export-release "HTML5" "builds/web/index.html"
+        elif [ "${{ matrix.platform }}" == "windows" ]; then
+          godot --headless --export-release "Windows Desktop" "builds/windows/flappy-bird.exe"
+        elif [ "${{ matrix.platform }}" == "linux" ]; then
+          godot --headless --export-release "Linux/X11" "builds/linux/flappy-bird.x86_64"
+        else
+          godot --headless --export-release "macOS" "builds/macos/flappy-bird.zip"
+        fi
 
     - name: Prepare artifact for ${{ matrix.platform }}
       run: |
