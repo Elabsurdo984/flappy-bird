@@ -15,12 +15,6 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pausar"):
-		toggle_pause()
-
-func toggle_pause():
-	if visible:
-		resume_game()
-	else:
 		pause_game()
 
 func pause_game() -> void:
@@ -35,11 +29,15 @@ func _on_resume_pressed() -> void:
 	resume_game()
 
 func _on_reiniciar_pressed() -> void:
+	get_tree().paused = false
 	GameManager.reset_score()
 	get_tree().reload_current_scene()
-	
+
 func _on_config_pressed() -> void:
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/settings/settings.tscn")
 
 func _on_menu_pressed() -> void:
+	get_tree().paused = false
+	GameManager.reset_score()
 	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
