@@ -11,7 +11,12 @@ var unlocked_skins: Array[String] = [
 var skin_prices: Dictionary = {
 	"res://assets/skins/pajaro_default.png": 0,
 	"res://assets/skins/pajaro_rojo.png": 5,
-	"res://assets/skins/pajaro_verde.png": 10
+	"res://assets/skins/pajaro_verde.png": 10,
+	"res://assets/skins/pajaro_azul.png": 20,
+	"res://assets/skins/pajaro_naranja.png": 25,
+	"res://assets/skins/pajaro_rosa.png": 30,
+	"res://assets/skins/pajaro_neutro.png": 50,
+	"res://assets/skins/pajaro_cyborg.png": 60
 }
 
 var total_coins: int = 0

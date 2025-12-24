@@ -14,7 +14,7 @@ motion_mode = 1
 script = ExtResource("1_6bcbl")
 
 [node name="Pajaro" type="Sprite2D" parent="."]
-texture_filter = 1
+texture_filter = 0
 position = Vector2(-518, -2.5)
 scale = Vector2(0.8181818, 0.8445946)
 texture = ExtResource("1_02n2h")

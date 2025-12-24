@@ -19,7 +19,6 @@ corner_radius_bottom_left = 10
 
 [node name="Settings" type="CanvasLayer"]
 process_mode = 3
-layer = 100
 script = ExtResource("1_26ncd")
 
 [node name="Control" type="Control" parent="."]
