@@ -1,0 +1,93 @@
+name: Build and Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0, v1.8.7, etc.
+
+env:
+  GODOT_VERSION: 4.5.0
+  EXPORT_NAME: wing-bird
+  PROJECT_PATH: .
+
+jobs:
+  export-windows:
+    name: Windows Export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.5.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Windows Build
+        run: |
+          mkdir -v -p builds/windows
+          godot --headless --verbose --export-release "Windows Desktop" builds/windows/${EXPORT_NAME}.exe
+
+      - name: Create ZIP for Windows
+        run: |
+          cd builds/windows
+          zip -r ../${EXPORT_NAME}-windows.zip .
+          cd ../..
+
+      - name: Upload Windows Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: builds/${{ env.EXPORT_NAME }}-windows.zip
+
+  create-release:
+    name: Create GitHub Release
+    needs: export-windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows Build
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-build
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ env.EXPORT_NAME }}-windows.zip
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-itchio:
+    name: Deploy to itch.io
+    needs: export-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Windows Build
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-build
+
+      - name: Extract Windows Build
+        run: |
+          mkdir -p windows-build
+          unzip ${{ env.EXPORT_NAME }}-windows.zip -d windows-build
+
+      - name: Deploy to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
+          CHANNEL: windows
+          ITCH_GAME: ${{ secrets.ITCH_GAME }}
+          ITCH_USER: ${{ secrets.ITCH_USER }}
+          PACKAGE: windows-build
+          VERSION: ${{ github.ref_name }}
