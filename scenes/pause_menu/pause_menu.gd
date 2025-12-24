@@ -34,8 +34,9 @@ func _on_reiniciar_pressed() -> void:
 	get_tree().reload_current_scene()
 
 func _on_config_pressed() -> void:
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/settings/settings.tscn")
+	var settings = get_tree().root.get_node_or_null("Node2D/Settings")
+	if settings and settings.has_method("show_settings"):
+		settings.show_settings()
 
 func _on_menu_pressed() -> void:
 	get_tree().paused = false

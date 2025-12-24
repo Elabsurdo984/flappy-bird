@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cmfetshy7837" path="res://scenes/countdown/countdown.tscn" id="6_fsb74"]
 [ext_resource type="PackedScene" uid="uid://bbpvukxei3av2" path="res://scenes/suelo/suelo.tscn" id="7_3uoq5"]
 [ext_resource type="PackedScene" uid="uid://eqp8hu56t0t2" path="res://scenes/pause_menu/pause_menu.tscn" id="8_km4fn"]
+[ext_resource type="PackedScene" uid="uid://bbnu5q68tebdq" path="res://scenes/settings/settings.tscn" id="9_km4fn"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_yhppp")
@@ -19,10 +20,12 @@ countdown_scene = ExtResource("6_fsb74")
 
 [node name="Node2D" parent="." instance=ExtResource("3_ap36v")]
 
+[node name="PauseMenu" parent="." instance=ExtResource("8_km4fn")]
+
+[node name="Settings" parent="." instance=ExtResource("9_km4fn")]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" parent="CanvasLayer" instance=ExtResource("5_yhppp")]
-
-[node name="PauseMenu" parent="." instance=ExtResource("8_km4fn")]
 
 [node name="suelo" parent="." instance=ExtResource("7_3uoq5")]

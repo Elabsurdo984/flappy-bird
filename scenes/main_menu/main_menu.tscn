@@ -9,6 +9,7 @@
 [ext_resource type="StyleBox" uid="uid://6p1tycmppw42" path="res://styles/button/hover_style.tres" id="6_5seab"]
 [ext_resource type="AudioStream" uid="uid://d32joksch3d53" path="res://assets/sounds/music.mp3" id="8_4xg86"]
 [ext_resource type="FontFile" uid="uid://gl5yj4pah2oh" path="res://assets/FlappyBirdRegular-9Pq0.ttf" id="9_thkx5"]
+[ext_resource type="PackedScene" uid="uid://bbnu5q68tebdq" path="res://scenes/settings/settings.tscn" id="10_thkx5"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -81,6 +82,7 @@ text = "salir
 [node name="MenuSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_4xg86")
 autoplay = true
+bus = &"Music"
 parameters/looping = true
 
 [node name="HighScoreLabel" type="Label" parent="."]
@@ -92,3 +94,5 @@ offset_bottom = 229.0
 theme_override_fonts/font = ExtResource("9_thkx5")
 theme_override_font_sizes/font_size = 50
 text = "Mejor Puntaje: 0"
+
+[node name="Settings" parent="." instance=ExtResource("10_thkx5")]

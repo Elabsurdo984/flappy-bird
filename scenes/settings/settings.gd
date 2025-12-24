@@ -1,13 +1,14 @@
-extends Control
+extends CanvasLayer
 
-@onready var music_slider: HSlider = $VBoxContainer/MusicContainer/MusicSlider
-@onready var sfx_slider: HSlider = $VBoxContainer/SFXContainer/SFXSlider
-@onready var music_label: Label = $VBoxContainer/MusicContainer/MusicLabel
-@onready var sfx_label: Label = $VBoxContainer/SFXContainer/SFXLabel
-@onready var back_button: Button = $BackButton
+@onready var music_slider: HSlider = $Control/VBoxContainer/MusicContainer/MusicSlider
+@onready var sfx_slider: HSlider = $Control/VBoxContainer/SFXContainer/SFXSlider
+@onready var music_label: Label = $Control/VBoxContainer/MusicContainer/MusicLabel
+@onready var sfx_label: Label = $Control/VBoxContainer/SFXContainer/SFXLabel
+@onready var back_button: Button = $Control/BackButton
 @onready var test_sfx: AudioStreamPlayer = $TestSFX
 
 func _ready() -> void:
+	hide()
 	# Configurar sliders
 	music_slider.min_value = 0.0
 	music_slider.max_value = 1.0
@@ -43,4 +44,11 @@ func _on_sfx_slider_changed(value: float) -> void:
 		test_sfx.play()
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
+	hide()
+
+func show_settings() -> void:
+	# Actualizar sliders con valores actuales
+	music_slider.value = GameManager.get_music_volume()
+	sfx_slider.value = GameManager.get_sfx_volume()
+	update_labels()
+	show()
