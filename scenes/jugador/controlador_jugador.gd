@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 	velocity.y = min(velocity.y, max_fall_speed)
 
 	# Saltar al presionar la flecha arriba
-	if Input.is_action_just_pressed("ui_up"):
+	if Input.is_action_just_pressed("salto"):
 		velocity.y = jump_force
 		
 		jump_sound.play()
