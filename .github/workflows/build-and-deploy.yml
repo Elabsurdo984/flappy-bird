@@ -83,9 +83,75 @@ jobs:
           name: linux-build
           path: builds/${{ env.EXPORT_NAME }}-linux.zip
 
+  export-macos:
+    name: macOS Export
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.5.0
+          use-dotnet: false
+          include-templates: true
+
+      - name: Verify Godot installation
+        run: godot --version
+
+      - name: macOS Build
+        run: |
+          mkdir -v -p builds/macos
+          godot --headless --verbose --export-release "macOS" builds/macos/${EXPORT_NAME}.zip
+
+      - name: Upload macOS Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build
+          path: builds/macos/${{ env.EXPORT_NAME }}.zip
+
+  export-web:
+    name: Web Export
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.5.0
+          use-dotnet: false
+          include-templates: true
+
+      - name: Verify Godot installation
+        run: godot --version
+
+      - name: Web Build
+        run: |
+          mkdir -v -p builds/web
+          godot --headless --verbose --export-release "Web" builds/web/index.html
+
+      - name: Create ZIP for Web
+        run: |
+          cd builds/web
+          zip -r ../${EXPORT_NAME}-web.zip .
+          cd ../..
+
+      - name: Upload Web Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: builds/${{ env.EXPORT_NAME }}-web.zip
+
   create-release:
     name: Create GitHub Release
-    needs: [export-windows, export-linux]
+    needs: [export-windows, export-linux, export-macos, export-web]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -100,12 +166,24 @@ jobs:
         with:
           name: linux-build
 
+      - name: Download macOS Build
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-build
+
+      - name: Download Web Build
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             ${{ env.EXPORT_NAME }}-windows.zip
             ${{ env.EXPORT_NAME }}-linux.zip
+            ${{ env.EXPORT_NAME }}-web.zip
+            ${{ env.EXPORT_NAME }}.zip
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: false
@@ -161,4 +239,54 @@ jobs:
           ITCH_GAME: ${{ secrets.ITCH_GAME }}
           ITCH_USER: ${{ secrets.ITCH_USER }}
           PACKAGE: linux-build
+          VERSION: ${{ github.ref_name }}
+
+  deploy-itchio-macos:
+    name: Deploy to itch.io (macOS)
+    needs: export-macos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download macOS Build
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-build
+
+      - name: Extract macOS Build
+        run: |
+          mkdir -p macos-build
+          unzip ${{ env.EXPORT_NAME }}.zip -d macos-build
+
+      - name: Deploy macOS to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
+          CHANNEL: mac
+          ITCH_GAME: ${{ secrets.ITCH_GAME }}
+          ITCH_USER: ${{ secrets.ITCH_USER }}
+          PACKAGE: macos-build
+          VERSION: ${{ github.ref_name }}
+
+  deploy-itchio-web:
+    name: Deploy to itch.io (Web)
+    needs: export-web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Web Build
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+
+      - name: Extract Web Build
+        run: |
+          mkdir -p web-build
+          unzip ${{ env.EXPORT_NAME }}-web.zip -d web-build
+
+      - name: Deploy Web to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
+          CHANNEL: html5
+          ITCH_GAME: ${{ secrets.ITCH_GAME }}
+          ITCH_USER: ${{ secrets.ITCH_USER }}
+          PACKAGE: web-build
           VERSION: ${{ github.ref_name }}
