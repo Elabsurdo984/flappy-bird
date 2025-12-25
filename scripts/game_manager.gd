@@ -34,8 +34,45 @@ var current_speed_multiplier: float = 1.0
 var music_volume: float = 0.8  # 0.0 a 1.0
 var sfx_volume: float = 0.8    # 0.0 a 1.0
 
+var total_score: int = 0
+var current_rank: int = 0
+
+var ranks: Array[Dictionary] = [
+	{
+		"name": "Polluelo",
+		"points_required": 0,
+		"description": "Apenas aprendiendo a volar"
+	},
+	{
+		"name": "Gorrion",
+		"points_required": 50,
+		"description": "Volando con Confianza"
+	},
+	{
+		"name": "Paloma",
+		"points_required": 150,
+		"description": "Navegando los cielos"
+	},
+	{
+		"name": "Halcon",
+		"points_required": 300,
+		"description": "Cazador de los Aires"
+	},
+	{
+		"name": "Aguila",
+		"points_required": 500,
+		"description": "Maestro del Vuelo"
+	},
+	{
+		"name": "Fenix",
+		"points_required": 1000,
+		"description": "Leyenda de los cielos"
+	},
+]
+
 signal speed_increased(new_speed: float)
 signal volume_changed()
+signal rank_changed(new_rank: int)
 
 func _ready() -> void:
 	load_game()
@@ -49,6 +86,9 @@ func add_score(amount: int = 1) -> void:
 	var old_score = score
 	score += amount
 	total_coins += amount
+	total_score += amount
+	
+	check_rank_up()
 	
 	# Actualizar high score si es necesario
 	if score > high_score:
@@ -65,6 +105,18 @@ func add_score(amount: int = 1) -> void:
 		print("¡Velocidad aumentada! Nueva velocidad: ", new_speed)
 	
 	save_game()
+
+func check_rank_up() -> void:
+	var old_rank = current_rank
+	
+	for i in range(ranks.size() - 1, -1, -1):
+		if total_score >= ranks[i]["points_required"]:
+			current_rank = i
+			break
+	
+	if current_rank > old_rank:
+		rank_changed.emit(current_rank)
+		print("Subiste de rango, Ahora eres: ", ranks[current_rank]["name"])
 	
 func get_score() -> int:
 	return score
@@ -80,6 +132,40 @@ func get_current_speed() -> float:
 
 func get_coins() -> int:
 	return total_coins
+
+func get_current_rank() -> int:
+	return current_rank
+
+func get_rank_name() -> String:
+	return ranks[current_rank]["name"]
+
+func get_rank_description() -> String:
+	return ranks[current_rank]["description"]
+	
+func get_total_score() -> int:
+	return total_score
+
+func get_rank_progress() -> float:
+	if current_rank >= ranks.size() - 1:
+		return 1.0
+	
+	var current_rank_point = ranks[current_rank]["points_required"]
+	var next_rank_points = ranks[current_rank + 1]["points_required"]
+	var points_in_current_rank = total_score - current_rank_point
+	var points_needed = next_rank_points - current_rank_point
+	
+	return float(points_in_current_rank) / float(points_needed)
+
+func get_points_to_next_rank() -> int:
+	if current_rank >= ranks.size() - 1:
+		return 0
+	
+	return ranks[current_rank + 1]["points_required"] - total_score
+
+func get_next_rank_name() -> String:
+	if current_rank >= ranks.size() - 1:
+		return "Maximo"
+	return ranks[current_rank + 1]["name"]
 
 func set_current_skin(skin_path: String) -> void:
 	current_skin = skin_path
@@ -141,7 +227,9 @@ func save_game() -> void:
 		"unlocked_skins": unlocked_skins,
 		"music_volume": music_volume,
 		"sfx_volume": sfx_volume,
-		"high_score": high_score
+		"high_score": high_score,
+		"total_score": total_score,
+		"current_rank": current_rank
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -172,13 +260,15 @@ func load_game() -> void:
 			music_volume = save_data.get("music_volume", 0.8)
 			sfx_volume = save_data.get("sfx_volume", 0.8)
 			high_score = save_data.get("high_score", 0)
+			total_score = save_data.get("total_score", 0)
+			current_rank = save_data.get("current_rank", 0)
 			
 			var loaded_skins = save_data.get("unlocked_skins", ["res://assets/skins/pajaro_default.png"])
 			unlocked_skins.clear()
 			for skin in loaded_skins:
 				unlocked_skins.append(skin as String)
 			
-			print("Juego cargado: ", total_coins, " monedas")
+			print("Juego cargado: ", total_coins, " monedas, Rango: ", get_rank_name())
 		else:
 			print("Error al parsear el JSON")
 	else:

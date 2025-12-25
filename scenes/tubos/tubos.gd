@@ -47,19 +47,19 @@ func _on_body_entered(_body: Node2D) -> void:
 	if has_collided:
 		return
 	has_collided = true
-		
+
 	# Detener el spawner de tubos
 	var spawner = get_tree().get_first_node_in_group("tubo_spawner")
 	if spawner:
 		spawner.set_physics_process(false)
-		
+
 	# Reproducir sonido de choque
 	if has_node("HitSound"):
 		$HitSound.process_mode = Node.PROCESS_MODE_ALWAYS
 		$HitSound.play()
 		# Esperar a que termine el sonido
 		await $HitSound.finished
-		
+
 	# Cambiar a la escena de Game Over
 	get_tree().change_scene_to_packed(game_over_scene)
 	
