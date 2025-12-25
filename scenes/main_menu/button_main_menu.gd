@@ -26,6 +26,8 @@ func _on_pressed_boton_tienda() -> void:
 	get_tree().change_scene_to_file("res://scenes/shop/shop.tscn")
 
 func _on_pressed_boton_configuracion() -> void:
-	var settings = get_tree().root.get_node_or_null("Control/Settings")
+	var settings = $Settings
 	if settings and settings.has_method("show_settings"):
 		settings.show_settings()
+	else:
+		print("ERROR: No se pudo encontrar el nodo Settings")

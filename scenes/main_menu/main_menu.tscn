@@ -97,7 +97,6 @@ theme_override_font_sizes/font_size = 50
 text = "Mejor Puntaje: 0"
 
 [node name="Settings" parent="." instance=ExtResource("10_thkx5")]
-visible = false
 
 [node name="Control" parent="." instance=ExtResource("11_lqpn7")]
 layout_mode = 1

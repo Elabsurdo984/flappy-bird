@@ -140,7 +140,9 @@ func add_score(amount: int = 1) -> void:
 		high_score = score
 		save_game()  # Guardar el nuevo récord inmediatamente
 	
+	@warning_ignore("integer_division")
 	var old_level = int(old_score / points_per_speed_increase)
+	@warning_ignore("integer_division")
 	var new_level = int(score / points_per_speed_increase)
 	
 	if new_level > old_level:
@@ -250,19 +252,21 @@ func get_sfx_volume() -> float:
 func apply_audio_settings() -> void:
 	# Convertir de 0-1 a decibelios (-80 a 0)
 	# 0.0 = -80db (silencio), 1.0 = 0db (máximo)
+	@warning_ignore("incompatible_ternary")
 	var music_db = linear_to_db(music_volume) if music_volume > 0 else -80
+	@warning_ignore("incompatible_ternary")
 	var sfx_db = linear_to_db(sfx_volume) if sfx_volume > 0 else -80
-	
+
 	# Aplicar a los buses de audio
 	var music_bus_idx = AudioServer.get_bus_index("Music")
 	var sfx_bus_idx = AudioServer.get_bus_index("SFX")
-	
+
 	if music_bus_idx != -1:
 		AudioServer.set_bus_volume_db(music_bus_idx, music_db)
-	
+
 	if sfx_bus_idx != -1:
 		AudioServer.set_bus_volume_db(sfx_bus_idx, sfx_db)
-	
+
 	volume_changed.emit()
 
 func save_game() -> void:

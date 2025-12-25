@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="wing-bird"
-config/version="1.10.13"
+config/version="1.11.14"
 run/main_scene="uid://shim4hh05l0q"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.png"
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="res://default_bus_layout.tres"
 
 [autoload]
 
@@ -26,7 +26,6 @@ GameManager="*res://scripts/game_manager.gd"
 
 [display]
 
-window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
