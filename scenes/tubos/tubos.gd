@@ -24,7 +24,6 @@ func _on_speed_increased(new_speed: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	position.x -= speed * delta
-	
 	if position.x < -600:
 		queue_free()
 

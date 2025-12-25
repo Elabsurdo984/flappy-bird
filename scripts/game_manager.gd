@@ -46,27 +46,72 @@ var ranks: Array[Dictionary] = [
 	{
 		"name": "Gorrion",
 		"points_required": 50,
-		"description": "Volando con Confianza"
+		"description": "Volando con confianza"
+	},
+	{
+		"name": "Golondrina",
+		"points_required": 100,
+		"description": "Ágil entre obstáculos"
 	},
 	{
 		"name": "Paloma",
-		"points_required": 150,
+		"points_required": 200,
 		"description": "Navegando los cielos"
 	},
 	{
-		"name": "Halcon",
+		"name": "Colibri",
 		"points_required": 300,
-		"description": "Cazador de los Aires"
+		"description": "Maestro de la agilidad"
 	},
 	{
-		"name": "Aguila",
-		"points_required": 500,
-		"description": "Maestro del Vuelo"
+		"name": "Petirrojo",
+		"points_required": 450,
+		"description": "Experto del vuelo rasante"
+	},
+	{
+		"name": "Halcon",
+		"points_required": 600,
+		"description": "Cazador de los aires"
+	},
+	{
+		"name": "Buho Sabio",
+		"points_required": 800,
+		"description": "Ojos que ven todo peligro"
+	},
+	{
+		"name": "Aguila Real",
+		"points_required": 1000,
+		"description": "Rey de las alturas"
+	},
+	{
+		"name": "Condor",
+		"points_required": 1300,
+		"description": "Domador de vientos imposibles"
 	},
 	{
 		"name": "Fenix",
-		"points_required": 1000,
-		"description": "Leyenda de los cielos"
+		"points_required": 1700,
+		"description": "Renacido de cada caída"
+	},
+	{
+		"name": "Grifo",
+		"points_required": 2200,
+		"description": "Guardián de tesoros celestiales"
+	},
+	{
+		"name": "Dragon",
+		"points_required": 3000,
+		"description": "Bestia legendaria del firmamento"
+	},
+	{
+		"name": "Arcangel",
+		"points_required": 4000,
+		"description": "Mensajero divino de los cielos"
+	},
+	{
+		"name": "Dios del Viento",
+		"points_required": 5500,
+		"description": "Perfección absoluta alcanzada"
 	},
 ]
 
