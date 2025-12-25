@@ -37,6 +37,11 @@ var current_speed_multiplier: float = 1.0
 var music_volume: float = 0.8  # 0.0 a 1.0
 var sfx_volume: float = 0.8    # 0.0 a 1.0
 
+var custom_inputs: Dictionary = {
+	"salto": KEY_UP,
+	"pausar": KEY_ESCAPE
+}
+
 var total_score: int = 0
 var current_rank: int = 0
 
@@ -125,6 +130,7 @@ signal rank_changed(new_rank: int)
 func _ready() -> void:
 	load_game()
 	apply_audio_settings()
+	apply_input_settings()
 
 func reset_score() -> void:
 	score = 0
@@ -271,6 +277,37 @@ func apply_audio_settings() -> void:
 		AudioServer.set_bus_volume_db(sfx_bus_idx, sfx_db)
 
 	volume_changed.emit()
+	
+func save_input_mapping(action_name: String, key_code: int) -> void:
+	custom_inputs[action_name] = key_code
+	save_game()
+
+func apply_input_settings() -> void:
+	for action_name in custom_inputs.keys():
+		var key_code = custom_inputs[action_name]
+		
+		InputMap.action_erase_events(action_name)
+		
+		var event = InputEventKey.new()
+		event.physical_keycode = key_code
+		
+		InputMap.action_add_event(action_name, event)
+
+func get_input_keycode(action_name: String) -> int:
+	return custom_inputs.get(action_name, KEY_NONE)
+
+func reset_inputs_to_default() -> void:
+	custom_inputs = {
+		"salto": KEY_UP,
+		"pausar": KEY_ESCAPE
+	}
+	apply_input_settings()
+	save_game()
+
+func get_key_name(keycode: int) -> String:
+	if keycode == KEY_NONE:
+		return "Sin asignar"
+	return OS.get_keycode_string(keycode)
 
 func save_game() -> void:
 	var save_data = {
@@ -281,7 +318,8 @@ func save_game() -> void:
 		"sfx_volume": sfx_volume,
 		"high_score": high_score,
 		"total_score": total_score,
-		"current_rank": current_rank
+		"current_rank": current_rank,
+		"custom_inputs": custom_inputs
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -314,6 +352,15 @@ func load_game() -> void:
 			high_score = save_data.get("high_score", 0)
 			total_score = save_data.get("total_score", 0)
 			current_rank = save_data.get("current_rank", 0)
+			
+			# Cargar controles personalizados
+			var loaded_inputs = save_data.get("custom_inputs", {
+				"salto": KEY_UP,
+				"pausar": KEY_ESCAPE
+			})
+			custom_inputs.clear()
+			for action in loaded_inputs.keys():
+				custom_inputs[action] = loaded_inputs[action]
 			
 			var loaded_skins = save_data.get("unlocked_skins", ["res://assets/skins/pajaro_default.png"])
 			unlocked_skins.clear()

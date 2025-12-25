@@ -39,6 +39,16 @@ text = "configuración"
 label_settings = SubResource("LabelSettings_v1hle")
 horizontal_alignment = 1
 
+[node name="BackButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 1103.0
+offset_top = -3.0
+offset_right = 1152.0
+offset_bottom = 66.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_1slea")
+text = "X"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
@@ -53,49 +63,97 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 30
+
+[node name="AudioContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
 alignment = 1
 
-[node name="MusicContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
+[node name="MusicContainer" type="VBoxContainer" parent="Control/VBoxContainer/AudioContainer"]
 layout_mode = 2
 
-[node name="MusicLabel" type="Label" parent="Control/VBoxContainer/MusicContainer"]
+[node name="MusicLabel" type="Label" parent="Control/VBoxContainer/AudioContainer/MusicContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_1slea")
 theme_override_font_sizes/font_size = 37
 text = "Musica: 80%"
 horizontal_alignment = 1
 
-[node name="MusicSlider" type="HSlider" parent="Control/VBoxContainer/MusicContainer"]
+[node name="MusicSlider" type="HSlider" parent="Control/VBoxContainer/AudioContainer/MusicContainer"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 0.8
 
-[node name="SFXContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
+[node name="SFXContainer" type="VBoxContainer" parent="Control/VBoxContainer/AudioContainer"]
 layout_mode = 2
 
-[node name="SFXLabel" type="Label" parent="Control/VBoxContainer/SFXContainer"]
+[node name="SFXLabel" type="Label" parent="Control/VBoxContainer/AudioContainer/SFXContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_1slea")
 theme_override_font_sizes/font_size = 37
 text = "SFX: 80%"
 horizontal_alignment = 1
 
-[node name="SFXSlider" type="HSlider" parent="Control/VBoxContainer/SFXContainer"]
+[node name="SFXSlider" type="HSlider" parent="Control/VBoxContainer/AudioContainer/SFXContainer"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 0.8
 
-[node name="BackButton" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 1103.0
-offset_top = -3.0
-offset_right = 1152.0
-offset_bottom = 66.0
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_1slea")
-text = "X"
+[node name="ControlsContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ControlsTitle" type="Label" parent="Control/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_1slea")
+theme_override_font_sizes/font_size = 40
+text = "Controles"
+horizontal_alignment = 1
+
+[node name="JumpContainer" type="HBoxContainer" parent="Control/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="JumpLabel" type="Label" parent="Control/VBoxContainer/ControlsContainer/JumpContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_1slea")
+theme_override_font_sizes/font_size = 30
+text = "Saltar: "
+
+[node name="JumpButton" type="Button" parent="Control/VBoxContainer/ControlsContainer/JumpContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_1slea")
+theme_override_font_sizes/font_size = 25
+text = "Flecha Arriba"
+
+[node name="PauseContainer" type="HBoxContainer" parent="Control/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PauseLabel" type="Label" parent="Control/VBoxContainer/ControlsContainer/PauseContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_1slea")
+theme_override_font_sizes/font_size = 30
+text = "Pausar: "
+
+[node name="PauseButton" type="Button" parent="Control/VBoxContainer/ControlsContainer/PauseContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_1slea")
+theme_override_font_sizes/font_size = 25
+text = "Escape"
+
+[node name="ResetButton" type="Button" parent="Control/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_1slea")
+theme_override_font_sizes/font_size = 25
+text = "Restablecer Controles"
 
 [node name="TestSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_v1hle")
