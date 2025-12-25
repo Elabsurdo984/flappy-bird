@@ -41,6 +41,21 @@ var available_skins: Array[Dictionary] = [
 		"path": "res://assets/skins/pajaro_cyborg.png",
 		"price": 60
 	},
+	{
+		"name": "Poseido",
+		"path": "res://assets/skins/pajaro_poseido.png",
+		"price": 80
+	},
+	{
+		"name": "Negativo",
+		"path": "res://assets/skins/pajaro_negativo.png",
+		"price": 100
+	},
+	{
+		"name": "Pro",
+		"path": "res://assets/skins/pajaro_pro.png",
+		"price": 130
+	},
 ]
 
 @onready var skins_container: GridContainer = $ScrollContainer/GridContainer

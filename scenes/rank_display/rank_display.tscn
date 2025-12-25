@@ -20,7 +20,7 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -203.0
+offset_left = -271.0
 offset_top = -61.5
 offset_bottom = 61.5
 grow_horizontal = 0
@@ -39,7 +39,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_strde")
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_top = -8.5
-offset_right = 203.0
+offset_right = 271.0
 offset_bottom = 120.0
 color = Color(0, 0, 0, 0.22352941)
 

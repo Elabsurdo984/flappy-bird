@@ -16,7 +16,10 @@ var skin_prices: Dictionary = {
 	"res://assets/skins/pajaro_naranja.png": 25,
 	"res://assets/skins/pajaro_rosa.png": 30,
 	"res://assets/skins/pajaro_neutro.png": 50,
-	"res://assets/skins/pajaro_cyborg.png": 60
+	"res://assets/skins/pajaro_cyborg.png": 60,
+	"res://assets/skins/pajaro_poseido.png": 80,
+	"res://assets/skins/pajaro_negativo.png": 100,
+	"res://assets/skins/pajaro_pro.png": 130,
 }
 
 var total_coins: int = 0
