@@ -13,4 +13,4 @@ func _on_body_entered(body: Node2D) -> void:
 		$HitSound.play()
 		# Esperar a que termine el sonido
 		await $HitSound.finished
-	get_tree().change_scene_to_file("res://scenes/game_over/game_over.tscn")
+	SceneManager.go_to_game_over()

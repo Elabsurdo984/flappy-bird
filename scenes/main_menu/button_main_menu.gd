@@ -17,13 +17,13 @@ func update_high_score_display() -> void:
 		high_score_label.text = "Mejor Puntaje: " + str(high_score)
 
 func _on_pressed_boton_jugar() -> void:
-	get_tree().change_scene_to_file("res://scenes/escena_principal/escena_principal.tscn")
+	SceneManager.go_to_game()
 
 func _on_pressed_boton_salir() -> void:
 	get_tree().quit()
 
 func _on_pressed_boton_tienda() -> void:
-	get_tree().change_scene_to_file("res://scenes/shop/shop.tscn")
+	SceneManager.go_to_shop()
 
 func _on_pressed_boton_configuracion() -> void:
 	var settings = $Settings

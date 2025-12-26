@@ -57,4 +57,4 @@ func show_message(text: String, color: Color) -> void:
 	tween.tween_callback(label.queue_free)
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
+	SceneManager.go_to_main_menu()

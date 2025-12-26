@@ -7,7 +7,7 @@ func _ready() -> void:
 	$Puntaje.text = "Puntaje: " + str(GameManager.get_score())
 	
 func _on_boton_reiniciar_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/escena_principal/escena_principal.tscn")
+	SceneManager.go_to_game()
 
 func _on_boton_menu_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
+	SceneManager.go_to_main_menu()

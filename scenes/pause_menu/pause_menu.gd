@@ -43,4 +43,4 @@ func _on_config_pressed() -> void:
 func _on_menu_pressed() -> void:
 	get_tree().paused = false
 	GameManager.reset_score()
-	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
+	SceneManager.go_to_main_menu()

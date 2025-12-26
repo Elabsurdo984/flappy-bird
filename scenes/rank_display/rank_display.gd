@@ -40,4 +40,4 @@ func _on_rank_changed(_new_rank: int) -> void:
 	tween.tween_property(rank_label, "scale", Vector2(1.0, 1.0), 0.2)
 	
 func _on_ranks_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/ranks_list/ranks_list.tscn")
+	SceneManager.go_to_ranks_list()

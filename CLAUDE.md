@@ -46,6 +46,19 @@ The **GameManager** (`scripts/game_manager.gd`) is an autoloaded singleton that 
 
 Access it from any script via `GameManager.method_name()`. All scenes rely on this singleton for persistent data.
 
+### Scene Navigation
+The **SceneManager** (`scripts/scene_manager.gd`) is an autoloaded singleton that centralizes all scene navigation:
+- Defines scene path constants (MAIN_MENU, GAME, GAME_OVER, SHOP, RANKS_LIST)
+- Provides `change_to(scene_path)` for generic scene changes
+- Helper methods for common transitions:
+  - `go_to_main_menu()` - Navigate to main menu
+  - `go_to_game()` - Start new game
+  - `go_to_game_over()` - Show game over screen
+  - `go_to_shop()` - Open skin shop
+  - `go_to_ranks_list()` - View all ranks
+
+Use `SceneManager.go_to_main_menu()` instead of hardcoded `get_tree().change_scene_to_file()` calls. This eliminates duplicated scene paths and provides a single source of truth for scene navigation.
+
 ### Audio System
 The game uses **AudioBusLayout** with three separate buses:
 - `Master` - Main mix bus
