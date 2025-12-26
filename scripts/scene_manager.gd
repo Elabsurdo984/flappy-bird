@@ -6,6 +6,7 @@ const GAME = "res://scenes/escena_principal/escena_principal.tscn"
 const GAME_OVER = "res://scenes/game_over/game_over.tscn"
 const SHOP = "res://scenes/shop/shop.tscn"
 const RANKS_LIST = "res://scenes/ranks_list/ranks_list.tscn"
+const HOW_TO_PLAY = "res://scenes/how_to_play/how_to_play.tscn"
 
 func change_to(scene_path: String) -> void:
 	get_tree().change_scene_to_file(scene_path)
@@ -25,3 +26,6 @@ func go_to_shop() -> void:
 
 func go_to_ranks_list() -> void:
 	change_to(RANKS_LIST)
+
+func go_to_how_to_play() -> void:
+	change_to(HOW_TO_PLAY)

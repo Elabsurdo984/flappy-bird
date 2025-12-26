@@ -7,7 +7,11 @@ func _ready() -> void:
 	$VBoxContainer/BotonSalir.pressed.connect(_on_pressed_boton_salir)
 	$VBoxContainer/BotonTienda.pressed.connect(_on_pressed_boton_tienda)
 	$VBoxContainer/BotonConfiguracion.pressed.connect(_on_pressed_boton_configuracion)
-	
+
+	# Conectar botón de Cómo Jugar si existe
+	if has_node("VBoxContainer/BotonComoJugar"):
+		$VBoxContainer/BotonComoJugar.pressed.connect(_on_pressed_boton_como_jugar)
+
 	# Mostrar el high score
 	update_high_score_display()
 
@@ -31,3 +35,6 @@ func _on_pressed_boton_configuracion() -> void:
 		settings.show_settings()
 	else:
 		print("ERROR: No se pudo encontrar el nodo Settings")
+
+func _on_pressed_boton_como_jugar() -> void:
+	SceneManager.go_to_how_to_play()

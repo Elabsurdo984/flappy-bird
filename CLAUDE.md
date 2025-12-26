@@ -68,13 +68,15 @@ The game uses **AudioBusLayout** with three separate buses:
 Volume is controlled via `GameManager.set_music_volume()` and `GameManager.set_sfx_volume()`, which convert linear values (0.0-1.0) to decibels and apply them to the respective buses.
 
 ### Scene Flow
-1. **Main Menu** (`scenes/main_menu/`) - Entry point with Play, Shop, Settings, and Exit buttons
-2. **Game Scene** (`scenes/escena_principal/`) - Main gameplay, starts with countdown
-3. **Countdown** (`scenes/countdown/`) - 5-second countdown before gameplay begins
-4. **Game Over** (`scenes/game_over/`) - Shows score, restart/menu options
-5. **Shop** (`scenes/shop/`) - Skin purchase and selection system
-6. **Settings** (`scenes/settings/`) - Audio volume controls
-7. **Pause Menu** (`scenes/pause_menu/`) - In-game pause overlay
+1. **Main Menu** (`scenes/main_menu/`) - Entry point with Play, Shop, Settings, How to Play, and Exit buttons
+2. **How to Play** (`scenes/how_to_play/`) - Tutorial screen explaining controls, combos, coins, skins, and ranks
+3. **Game Scene** (`scenes/escena_principal/`) - Main gameplay, starts with countdown
+4. **Countdown** (`scenes/countdown/`) - 5-second countdown before gameplay begins
+5. **Game Over** (`scenes/game_over/`) - Shows score, restart/menu options
+6. **Shop** (`scenes/shop/`) - Skin purchase and selection system
+7. **Settings** (`scenes/settings/`) - Audio volume controls
+8. **Pause Menu** (`scenes/pause_menu/`) - In-game pause overlay
+9. **Ranks List** (`scenes/ranks_list/`) - View all available ranks and progress
 
 ### Gameplay Core Loop
 
