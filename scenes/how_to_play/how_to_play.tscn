@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3m1r4dd8xk86"]
+
+[ext_resource type="Script" uid="uid://uhh7dqncwex5" path="res://scenes/how_to_play/how_to_play.gd" id="1_e576c"]
+[ext_resource type="FontFile" uid="uid://0nd5mqqmlmh8" path="res://assets/BotsmaticDemo-MXOr.ttf" id="2_7n4cr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exv6s"]
+bg_color = Color(0.9843137, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e576c")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.69238025, 0.69421357, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 468.0
+offset_top = 583.0
+offset_right = 695.0
+offset_bottom = 639.0
+theme_override_fonts/font = ExtResource("2_7n4cr")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_exv6s")
+text = "volver"
