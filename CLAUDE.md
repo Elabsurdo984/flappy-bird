@@ -115,7 +115,12 @@ Skins are PNG textures in `assets/skins/`:
 - `pajaro_rojo.png` (5 coins)
 - `pajaro_verde.png` (10 coins)
 
-Prices defined in `GameManager.skin_prices` dictionary. Unlocked skins stored as resource paths in save data.
+Skin catalog defined in `GameManager.available_skins` array (11 total skins). Each entry contains name, path, and price. Access via helper methods:
+- `get_available_skins()` - Returns all skin data
+- `get_skin_price(path)` - Get price for specific skin
+- `get_skin_data(path)` - Get complete skin info
+
+Unlocked skins stored as resource paths in save data.
 
 ### Input Actions
 Defined in `project.godot` under `[input]`:

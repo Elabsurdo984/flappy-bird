@@ -8,19 +8,64 @@ var unlocked_skins: Array[String] = [
 	"res://assets/skins/pajaro_default.png"
 ]
 
-var skin_prices: Dictionary = {
-	"res://assets/skins/pajaro_default.png": 0,
-	"res://assets/skins/pajaro_rojo.png": 5,
-	"res://assets/skins/pajaro_verde.png": 10,
-	"res://assets/skins/pajaro_azul.png": 20,
-	"res://assets/skins/pajaro_naranja.png": 25,
-	"res://assets/skins/pajaro_rosa.png": 30,
-	"res://assets/skins/pajaro_neutro.png": 50,
-	"res://assets/skins/pajaro_cyborg.png": 60,
-	"res://assets/skins/pajaro_poseido.png": 80,
-	"res://assets/skins/pajaro_negativo.png": 100,
-	"res://assets/skins/pajaro_pro.png": 130,
-}
+# Catálogo completo de skins disponibles
+var available_skins: Array[Dictionary] = [
+	{
+		"name": "Default",
+		"path": "res://assets/skins/pajaro_default.png",
+		"price": 0
+	},
+	{
+		"name": "Rojo",
+		"path": "res://assets/skins/pajaro_rojo.png",
+		"price": 5
+	},
+	{
+		"name": "Verde",
+		"path": "res://assets/skins/pajaro_verde.png",
+		"price": 10
+	},
+	{
+		"name": "Azul",
+		"path": "res://assets/skins/pajaro_azul.png",
+		"price": 20
+	},
+	{
+		"name": "Naranja",
+		"path": "res://assets/skins/pajaro_naranja.png",
+		"price": 25
+	},
+	{
+		"name": "Rosa",
+		"path": "res://assets/skins/pajaro_rosa.png",
+		"price": 30
+	},
+	{
+		"name": "Neutro",
+		"path": "res://assets/skins/pajaro_neutro.png",
+		"price": 50
+	},
+	{
+		"name": "Cyborg",
+		"path": "res://assets/skins/pajaro_cyborg.png",
+		"price": 60
+	},
+	{
+		"name": "Poseido",
+		"path": "res://assets/skins/pajaro_poseido.png",
+		"price": 80
+	},
+	{
+		"name": "Negativo",
+		"path": "res://assets/skins/pajaro_negativo.png",
+		"price": 100
+	},
+	{
+		"name": "Pro",
+		"path": "res://assets/skins/pajaro_pro.png",
+		"price": 130
+	},
+]
 
 var total_coins: int = 0
 
@@ -240,6 +285,21 @@ func unlock_skin(skin_path: String, price: int) -> bool:
 		save_game()
 		return true
 	return false
+
+func get_available_skins() -> Array[Dictionary]:
+	return available_skins
+
+func get_skin_price(skin_path: String) -> int:
+	for skin in available_skins:
+		if skin["path"] == skin_path:
+			return skin["price"]
+	return 0
+
+func get_skin_data(skin_path: String) -> Dictionary:
+	for skin in available_skins:
+		if skin["path"] == skin_path:
+			return skin
+	return {}
 
 # Funciones de volumen
 func set_music_volume(value: float) -> void:

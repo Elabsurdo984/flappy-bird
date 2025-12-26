@@ -1,63 +1,5 @@
 extends Control
 
-var available_skins: Array[Dictionary] = [
-	{
-		"name": "Default",
-		"path": "res://assets/skins/pajaro_default.png",
-		"price": 0
-	},
-	{
-		"name": "Rojo",
-		"path": "res://assets/skins/pajaro_rojo.png",
-		"price": 5
-	},
-	{
-		"name": "Verde",
-		"path": "res://assets/skins/pajaro_verde.png",
-		"price": 10
-	},
-	{
-		"name": "Azul",
-		"path": "res://assets/skins/pajaro_azul.png",
-		"price": 20
-	},
-	{
-		"name": "Naranja",
-		"path": "res://assets/skins/pajaro_naranja.png",
-		"price": 25
-	},
-	{
-		"name": "Rosa",
-		"path": "res://assets/skins/pajaro_rosa.png",
-		"price": 30
-	},
-	{
-		"name": "Neutro",
-		"path": "res://assets/skins/pajaro_neutro.png",
-		"price": 50
-	},
-	{
-		"name": "Cyborg",
-		"path": "res://assets/skins/pajaro_cyborg.png",
-		"price": 60
-	},
-	{
-		"name": "Poseido",
-		"path": "res://assets/skins/pajaro_poseido.png",
-		"price": 80
-	},
-	{
-		"name": "Negativo",
-		"path": "res://assets/skins/pajaro_negativo.png",
-		"price": 100
-	},
-	{
-		"name": "Pro",
-		"path": "res://assets/skins/pajaro_pro.png",
-		"price": 130
-	},
-]
-
 @onready var skins_container: GridContainer = $ScrollContainer/GridContainer
 @onready var coins_label: Label = $CoinsLabel
 @onready var back_button: Button = $BackButton
@@ -77,12 +19,12 @@ func load_skins() -> void:
 	# Limpiar contenedor
 	for child in skins_container.get_children():
 		child.queue_free()
-	
-	# Crear un botón por cada skin
-	for skin_data in available_skins:
+
+	# Crear un botón por cada skin desde GameManager
+	for skin_data in GameManager.get_available_skins():
 		var skin_button = skin_button_scene.instantiate()
 		skins_container.add_child(skin_button)
-		
+
 		# Configurar el botón
 		skin_button.setup(skin_data)
 		skin_button.skin_selected.connect(_on_skin_selected)
@@ -116,7 +58,3 @@ func show_message(text: String, color: Color) -> void:
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
-		
-		
-
- 
