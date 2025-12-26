@@ -67,6 +67,13 @@ var available_skins: Array[Dictionary] = [
 	},
 ]
 
+# Sistema de combos
+const COMBO_THRESHOLDS: Array[int] = [5, 10, 15, 20, 30, 40, 50]
+const COMBO_MULTIPLIERS: Array[float] = [1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0]
+var combo_count: int = 0
+var combo_multiplier: float = 1.0
+var combo_level: int = 0
+
 var total_coins: int = 0
 
 # Sistema de High Score
@@ -171,6 +178,8 @@ var ranks: Array[Dictionary] = [
 signal speed_increased(new_speed: float)
 signal volume_changed()
 signal rank_changed(new_rank: int)
+signal combo_increased(new_combo: int, multiplier: float)
+signal combo_reset()
 
 func _ready() -> void:
 	load_game()
@@ -180,11 +189,14 @@ func _ready() -> void:
 func reset_score() -> void:
 	score = 0
 	current_speed_multiplier = 1.0
+	reset_combo()
 
 func add_score(amount: int = 1) -> void:
 	var old_score = score
 	score += amount
-	total_coins += amount
+	# Las monedas se multiplican por el combo
+	var coins_earned = int(amount * combo_multiplier)
+	total_coins += coins_earned
 	total_score += amount
 	
 	check_rank_up()
@@ -230,6 +242,41 @@ func is_new_record() -> bool:
 
 func get_current_speed() -> float:
 	return base_speed * current_speed_multiplier
+
+# Funciones de combo
+func increase_combo() -> void:
+	combo_count += 1
+
+	# Verificar si alcanzamos un nuevo nivel de combo
+	for i in range(COMBO_THRESHOLDS.size()):
+		if combo_count == COMBO_THRESHOLDS[i]:
+			combo_level = i
+			combo_multiplier = COMBO_MULTIPLIERS[i]
+			combo_increased.emit(combo_count, combo_multiplier)
+			print("¡Combo nivel ", i + 1, "! Multiplicador: x", combo_multiplier)
+			return
+
+	# Si ya pasamos todos los umbrales, mantener el máximo
+	if combo_count > COMBO_THRESHOLDS[-1] and combo_level < COMBO_THRESHOLDS.size():
+		combo_level = COMBO_THRESHOLDS.size() - 1
+		combo_multiplier = COMBO_MULTIPLIERS[-1]
+
+func reset_combo() -> void:
+	if combo_count > 0:
+		combo_count = 0
+		combo_multiplier = 1.0
+		combo_level = 0
+		combo_reset.emit()
+		print("Combo reiniciado")
+
+func get_combo_count() -> int:
+	return combo_count
+
+func get_combo_multiplier() -> float:
+	return combo_multiplier
+
+func get_combo_level() -> int:
+	return combo_level
 
 func get_coins() -> int:
 	return total_coins

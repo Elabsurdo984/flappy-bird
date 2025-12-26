@@ -33,12 +33,13 @@ func _on_score_area_body_entered(body: Node2D) -> void:
 	# Cuando el jugador pasa por el área de puntaje
 	if body.is_in_group("player") and not score_counted:
 		score_counted = true
-		GameManager.add_score()
-		
+		GameManager.increase_combo()  # Incrementar combo
+		GameManager.add_score()  # El score ya aplica el multiplicador
+
 		# Reproducir sonido de punto si existe
 		if has_node("ScoreSound"):
 			$ScoreSound.play()
-		
+
 		print("¡Punto! Puntaje actual: ", GameManager.get_score())
 
 

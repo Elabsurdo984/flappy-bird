@@ -102,6 +102,23 @@ Volume is controlled via `GameManager.set_music_volume()` and `GameManager.set_s
 - Multiplier formula: `1.0 + (level * (speed_increment / base_speed))`
 - All active pipes receive `speed_increased` signal to update mid-flight
 
+**Combo System**:
+- Tracks consecutive pipes passed without dying
+- Coin multipliers increase at thresholds: 5, 10, 15, 20, 30, 40, 50 pipes
+- Multipliers: 1.5x, 2.0x, 2.5x, 3.0x, 4.0x, 5.0x, 6.0x
+- Visual feedback with color changes and animations
+- Audio feedback with pitch-shifted sounds per level
+- Resets on death or game restart
+- Access via `GameManager.increase_combo()`, `GameManager.reset_combo()`
+- Signals: `combo_increased(count, multiplier)`, `combo_reset()`
+
+**Combo Display** (`scenes/combo_display/combo_display.gd`):
+- Shows current combo count and multiplier
+- Color-coded by combo level (yellow → orange → red → purple → cyan)
+- Animated scale/rotation on level up
+- Auto-creates UI labels and audio player if not in scene tree
+- Add to game scene as Control node to enable combo display
+
 ### Save System
 Location: `user://save_data.json` (platform-specific, see README.md for paths)
 
