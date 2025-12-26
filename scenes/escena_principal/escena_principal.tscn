@@ -32,3 +32,4 @@ offset_right = 5.0
 
 [node name="Settings" parent="." instance=ExtResource("6_d5mut")]
 layer = 100
+visible = false

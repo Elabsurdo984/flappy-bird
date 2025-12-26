@@ -4,8 +4,11 @@ extends Control
 @onready var rank_label: Label = $VBoxContainer/RankLabel
 @onready var progress_bar: ProgressBar = $VBoxContainer/ProgressBar
 @onready var progress_label: Label = $VBoxContainer/ProgressLabel
+@onready var ver_rangos_button: Button = $RanksButton
 
 func _ready() -> void:
+	ver_rangos_button.pressed.connect(_on_ranks_button_pressed)
+	
 	update_display()
 	
 	GameManager.rank_changed.connect(_on_rank_changed)
@@ -35,3 +38,6 @@ func _on_rank_changed(_new_rank: int) -> void:
 	var tween = create_tween()
 	tween.tween_property(rank_label, "scale", Vector2(1.3, 1.3), 0.2)
 	tween.tween_property(rank_label, "scale", Vector2(1.0, 1.0), 0.2)
+	
+func _on_ranks_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/ranks_list/ranks_list.tscn")
